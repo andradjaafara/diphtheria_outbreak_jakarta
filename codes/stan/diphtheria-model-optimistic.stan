@@ -15,57 +15,57 @@ functions {
 	real t3=372;
 	
 	if (t > t3 && t <= 9999){
-		dydt[1] = -params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] + params[19] * params[16] * ymod[3] - params[12];
-		dydt[2] = params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] - params[13] * ymod[2] - params[9] * ymod[2];
-		dydt[3] = params[18] * params[13] * ymod[2] - params[6] * params[14] * ymod[3] - (1 - params[6]) * params[16] * ymod[3];
-		dydt[4] = (1 - params[18]) * params[13] * ymod[2] + params[13] * ymod[9] - params[16] * ymod[4] - params[11] * ymod[4];
-		dydt[5] = (1 - params[6] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] - params[16] * ymod[5];
-		dydt[6] = (1 - params[22]) * params[16] * ymod[5] - params[17] * ymod[6];
-		dydt[7] = params[6] * params[14] * ymod[3] + params[22] * params[16] * ymod[5] + params[9] * (ymod[2] + ymod[9]) + params[11] * ymod[4];
-		dydt[8] = params[12] - params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25];
-		dydt[9] = params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25] - params[13] * ymod[9] - params[9] * ymod[9];
-		dydt[10] = params[18] * params[13] * ymod[2];
-		dydt[11] = (1 - params[18]) * params[13] * ymod[2] + (1 - params[6] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] + (1 - params[22]) * params[16] * ymod[5];
-		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[21]/(params[13]+params[9]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[21]/(params[13]+params[9]) + params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9]))*params[1]*params[21]/(params[6]*params[14]+(1-params[6])*params[16]) + ((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9])))*(params[2]*params[1]*params[21]/(params[16]+params[11])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9]))*((1-params[6]-params[19])*params[16]/(params[6]*params[14]+(1-params[6])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9])))*(params[16]/(params[16]+params[11])))*(params[3]*params[1]*params[21]/(params[16])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9]))*((1-params[6]-params[19])*params[16]/(params[6]*params[14]+(1-params[6])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[9])))*(params[16]/(params[16]+params[11])))*(params[3]*params[1]*params[21]/(params[17]))*(1-params[22]);
+		dydt[1] = -params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] + params[17] * params[14] * ymod[3] - params[10];
+		dydt[2] = params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] - params[11] * ymod[2] - params[9] * ymod[2];
+		dydt[3] = params[16] * params[11] * ymod[2] - params[6] * params[12] * ymod[3] - (1 - params[6]) * params[14] * ymod[3];
+		dydt[4] = (1 - params[16]) * params[11] * ymod[2] + params[11] * ymod[9] - params[14] * ymod[4];
+		dydt[5] = (1 - params[6] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] - params[14] * ymod[5];
+		dydt[6] = (1 - params[20]) * params[14] * ymod[5] - params[15] * ymod[6];
+		dydt[7] = params[6] * params[12] * ymod[3] + params[20] * params[14] * ymod[5] + params[9] * (ymod[2] + ymod[9]);
+		dydt[8] = params[10] - params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23];
+		dydt[9] = params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23] - params[11] * ymod[9] - params[9] * ymod[9];
+		dydt[10] = params[16] * params[11] * ymod[2];
+		dydt[11] = (1 - params[16]) * params[11] * ymod[2] + (1 - params[6] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] + (1 - params[20]) * params[14] * ymod[5];
+		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[19]/(params[11]+params[9]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[19]/(params[11]+params[9]) + params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9]))*params[1]*params[19]/(params[6]*params[12]+(1-params[6])*params[14]) + ((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9])))*(params[2]*params[1]*params[19]/(params[14])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9]))*((1-params[6]-params[17])*params[14]/(params[6]*params[12]+(1-params[6])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9])))*(params[14]/(params[14])))*(params[3]*params[1]*params[19]/(params[14])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9]))*((1-params[6]-params[17])*params[14]/(params[6]*params[12]+(1-params[6])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[9])))*(params[14]/(params[14])))*(params[3]*params[1]*params[19]/(params[15]))*(1-params[20]);
 	} else if (t > t2 && t <= t3){
-		dydt[1] = -params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] + params[19] * params[16] * ymod[3] - params[12];
-		dydt[2] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] - params[13] * ymod[2] - params[8] * ymod[2];
-		dydt[3] = params[18] * params[13] * ymod[2] - params[6] * params[15] * ymod[3] - (1 - params[6]) * params[16] * ymod[3];
-		dydt[4] = (1 - params[18]) * params[13] * ymod[2] + params[13] * ymod[9] - params[16] * ymod[4] - params[10] * ymod[4];
-		dydt[5] = (1 - params[6] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] - params[16] * ymod[5];
-		dydt[6] = (1 - params[22]) * params[16] * ymod[5] - params[17] * ymod[6];
-		dydt[7] = params[6] * params[15] * ymod[3] + params[22] * params[16] * ymod[5] + params[8] * (ymod[2] + ymod[9]) + params[10] * ymod[4];
-		dydt[8] = params[12] - params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25];
-		dydt[9] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25] - params[13] * ymod[9] - params[8] * ymod[9];
-		dydt[10] = params[18] * params[13] * ymod[2];
-		dydt[11] = (1 - params[18]) * params[13] * ymod[2] + (1 - params[6] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] + (1 - params[22]) * params[16] * ymod[5];
-		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[13]+params[8]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[13]+params[8]) + params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))*params[1]*params[7]/(params[6]*params[15]+(1-params[6])*params[16]) + ((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8])))*(params[2]*params[1]*params[7]/(params[16]+params[10])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))*((1-params[6]-params[19])*params[16]/(params[6]*params[15]+(1-params[6])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8])))*(params[16]/(params[16]+params[10])))*(params[3]*params[1]*params[7]/(params[16])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))*((1-params[6]-params[19])*params[16]/(params[6]*params[15]+(1-params[6])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8])))*(params[16]/(params[16]+params[10])))*(params[3]*params[1]*params[7]/(params[17]))*(1-params[22]);
+		dydt[1] = -params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] + params[17] * params[14] * ymod[3] - params[10];
+		dydt[2] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] - params[11] * ymod[2] - params[8] * ymod[2];
+		dydt[3] = params[16] * params[11] * ymod[2] - params[6] * params[13] * ymod[3] - (1 - params[6]) * params[14] * ymod[3];
+		dydt[4] = (1 - params[16]) * params[11] * ymod[2] + params[11] * ymod[9] - params[14] * ymod[4];
+		dydt[5] = (1 - params[6] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] - params[14] * ymod[5];
+		dydt[6] = (1 - params[20]) * params[14] * ymod[5] - params[15] * ymod[6];
+		dydt[7] = params[6] * params[13] * ymod[3] + params[20] * params[14] * ymod[5] + params[8] * (ymod[2] + ymod[9]);
+		dydt[8] = params[10] - params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23];
+		dydt[9] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23] - params[11] * ymod[9] - params[8] * ymod[9];
+		dydt[10] = params[16] * params[11] * ymod[2];
+		dydt[11] = (1 - params[16]) * params[11] * ymod[2] + (1 - params[6] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] + (1 - params[20]) * params[14] * ymod[5];
+		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[11]+params[8]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[11]+params[8]) + params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))*params[1]*params[7]/(params[6]*params[13]+(1-params[6])*params[14]) + ((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8])))*(params[2]*params[1]*params[7]/(params[14])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))*((1-params[6]-params[17])*params[14]/(params[6]*params[13]+(1-params[6])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8])))*(params[14]/(params[14])))*(params[3]*params[1]*params[7]/(params[14])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))*((1-params[6]-params[17])*params[14]/(params[6]*params[13]+(1-params[6])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8])))*(params[14]/(params[14])))*(params[3]*params[1]*params[7]/(params[15]))*(1-params[20]);
 	} else if (t > t1 && t <= t2){
-		dydt[1] = -params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] + params[19] * params[16] * ymod[3] - params[20];
-		dydt[2] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] - params[13] * ymod[2] - params[8] * ymod[2];
-		dydt[3] = params[18] * params[13] * ymod[2] - params[6] * params[15] * ymod[3] - (1 - params[6]) * params[16] * ymod[3];
-		dydt[4] = (1 - params[18]) * params[13] * ymod[2] + params[13] * ymod[9] - params[16] * ymod[4] - params[10] * ymod[4];
-		dydt[5] = (1 - params[6] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] - params[16] * ymod[5];
-		dydt[6] = (1 - params[22]) * params[16] * ymod[5] - params[17] * ymod[6];
-		dydt[7] = params[6] * params[15] * ymod[3] + params[22] * params[16] * ymod[5] + params[8] * (ymod[2] + ymod[9]) + params[10] * ymod[4];
-		dydt[8] = params[20] - params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25];
-		dydt[9] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25] - params[13] * ymod[9] - params[8] * ymod[9];
-		dydt[10] = params[18] * params[13] * ymod[2];
-		dydt[11] = (1 - params[18]) * params[13] * ymod[2] + (1 - params[6] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] + (1 - params[22]) * params[16] * ymod[5];
-		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[13]+params[8]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[13]+params[8]) + params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))*params[1]*params[7]/(params[6]*params[15]+(1-params[6])*params[16]) + ((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8])))*(params[2]*params[1]*params[7]/(params[16]+params[10])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))*((1-params[6]-params[19])*params[16]/(params[6]*params[15]+(1-params[6])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8])))*(params[16]/(params[16]+params[10])))*(params[3]*params[1]*params[7]/(params[16])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))*((1-params[6]-params[19])*params[16]/(params[6]*params[15]+(1-params[6])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[8])))*(params[16]/(params[16]+params[10])))*(params[3]*params[1]*params[7]/(params[17]))*(1-params[22]);
+		dydt[1] = -params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] + params[17] * params[14] * ymod[3] - params[18];
+		dydt[2] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] - params[11] * ymod[2] - params[8] * ymod[2];
+		dydt[3] = params[16] * params[11] * ymod[2] - params[6] * params[13] * ymod[3] - (1 - params[6]) * params[14] * ymod[3];
+		dydt[4] = (1 - params[16]) * params[11] * ymod[2] + params[11] * ymod[9] - params[14] * ymod[4];
+		dydt[5] = (1 - params[6] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] - params[14] * ymod[5];
+		dydt[6] = (1 - params[20]) * params[14] * ymod[5] - params[15] * ymod[6];
+		dydt[7] = params[6] * params[13] * ymod[3] + params[20] * params[14] * ymod[5] + params[8] * (ymod[2] + ymod[9]);
+		dydt[8] = params[18] - params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23];
+		dydt[9] = params[1] * params[7] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23] - params[11] * ymod[9] - params[8] * ymod[9];
+		dydt[10] = params[16] * params[11] * ymod[2];
+		dydt[11] = (1 - params[16]) * params[11] * ymod[2] + (1 - params[6] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] + (1 - params[20]) * params[14] * ymod[5];
+		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[11]+params[8]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[7]/(params[11]+params[8]) + params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))*params[1]*params[7]/(params[6]*params[13]+(1-params[6])*params[14]) + ((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8])))*(params[2]*params[1]*params[7]/(params[14])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))*((1-params[6]-params[17])*params[14]/(params[6]*params[13]+(1-params[6])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8])))*(params[14]/(params[14])))*(params[3]*params[1]*params[7]/(params[14])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))*((1-params[6]-params[17])*params[14]/(params[6]*params[13]+(1-params[6])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[8])))*(params[14]/(params[14])))*(params[3]*params[1]*params[7]/(params[15]))*(1-params[20]);
 	} else{
-		dydt[1] = -params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] + params[19] * params[16] * ymod[3] - params[20];
-		dydt[2] = params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[25] - params[13] * ymod[2] - params[23] * ymod[2];
-		dydt[3] = params[18] * params[13] * ymod[2] - params[5] * params[14] * ymod[3] - (1 - params[5]) * params[16] * ymod[3];
-		dydt[4] = (1 - params[18]) * params[13] * ymod[2] + params[13] * ymod[9] - params[16] * ymod[4] - params[24] * ymod[4];
-		dydt[5] = (1 - params[5] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] - params[16] * ymod[5];
-		dydt[6] = (1 - params[22]) * params[16] * ymod[5] - params[17] * ymod[6];
-		dydt[7] = params[5] * params[14] * ymod[3] + params[22] * params[16] * ymod[5] + params[23] * (ymod[2] + ymod[9]) + params[24] * ymod[4];
-		dydt[8] = params[20] - params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25];
-		dydt[9] = params[1] * params[21] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[25] - params[13] * ymod[9] - params[23] * ymod[9];
-		dydt[10] = params[18] * params[13] * ymod[2];
-		dydt[11] = (1 - params[18]) * params[13] * ymod[2] + (1 - params[5] - params[19]) * params[16] * ymod[3] + params[16] * ymod[4] + (1 - params[22]) * params[16] * ymod[5];
-		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[21]/(params[13]+params[23]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[21]/(params[13]+params[23]) + params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23]))*params[1]*params[21]/(params[5]*params[14]+(1-params[5])*params[16]) + ((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23])))*(params[2]*params[1]*params[21]/(params[16]+params[24])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23]))*((1-params[5]-params[19])*params[16]/(params[5]*params[14]+(1-params[5])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23])))*(params[16]/(params[16]+params[24])))*(params[3]*params[1]*params[21]/(params[16])) + (params[18]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23]))*((1-params[5]-params[19])*params[16]/(params[5]*params[14]+(1-params[5])*params[16]))+((1-params[18])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[13]/(params[13]+params[23])))*(params[16]/(params[16]+params[24])))*(params[3]*params[1]*params[21]/(params[17]))*(1-params[22]);
+		dydt[1] = -params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] + params[17] * params[14] * ymod[3] - params[18];
+		dydt[2] = params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[1]/params[23] - params[11] * ymod[2] - params[21] * ymod[2];
+		dydt[3] = params[16] * params[11] * ymod[2] - params[5] * params[12] * ymod[3] - (1 - params[5]) * params[14] * ymod[3];
+		dydt[4] = (1 - params[16]) * params[11] * ymod[2] + params[11] * ymod[9] - params[14] * ymod[4] - params[22] * ymod[4];
+		dydt[5] = (1 - params[5] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] - params[14] * ymod[5];
+		dydt[6] = (1 - params[20]) * params[14] * ymod[5] - params[15] * ymod[6];
+		dydt[7] = params[5] * params[12] * ymod[3] + params[20] * params[14] * ymod[5] + params[21] * (ymod[2] + ymod[9]) + params[22] * ymod[4];
+		dydt[8] = params[18] - params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23];
+		dydt[9] = params[1] * params[19] * (ymod[3] + params[2] * ymod[4] + params[3] * (ymod[5] + ymod[6]) + params[4] * (ymod[2] + ymod[9])) * ymod[8]/params[23] - params[11] * ymod[9] - params[21] * ymod[9];
+		dydt[10] = params[16] * params[11] * ymod[2];
+		dydt[11] = (1 - params[16]) * params[11] * ymod[2] + (1 - params[5] - params[17]) * params[14] * ymod[3] + params[14] * ymod[4] + (1 - params[20]) * params[14] * ymod[5];
+		dydt[12] = ymod[1]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[19]/(params[11]+params[21]) + ymod[8]/(ymod[1]+ymod[8]+ymod[7])*params[4]*params[1]*params[19]/(params[11]+params[21]) + params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21]))*params[1]*params[19]/(params[5]*params[12]+(1-params[5])*params[14]) + ((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21])))*(params[2]*params[1]*params[19]/(params[14]+params[22])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21]))*((1-params[5]-params[17])*params[14]/(params[5]*params[12]+(1-params[5])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21])))*(params[14]/(params[14]+params[22])))*(params[3]*params[1]*params[19]/(params[14])) + (params[16]*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21]))*((1-params[5]-params[17])*params[14]/(params[5]*params[12]+(1-params[5])*params[14]))+((1-params[16])*(ymod[1]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21]))+(ymod[8]/(ymod[1]+ymod[8]+ymod[7]))*(params[11]/(params[11]+params[21])))*(params[14]/(params[14]+params[22])))*(params[3]*params[1]*params[19]/(params[15]))*(1-params[20]);
 	}
     return dydt;
   }
@@ -99,8 +99,6 @@ parameters {
   real<lower = 0, upper = 1> kappa; // proportion of the reduced contact after declaration + during school break
   real<lower = 0, upper = 1> sigmaE_1; // removal of exposed/prodormal as the effect of contact tracing during peak
   real<lower = 0, upper = 1> sigmaE_2; // removal of exposed/prodormal as the effect of contact tracing during decline
-  real<lower = 0, upper = 1> sigmaC_1; // removal of carriers as the effect of contact tracing during peak
-  real<lower = 0, upper = 1> sigmaC_2; // removal of carriers as the effect of contact tracing during decline
   real<lower = 0, upper = 1> S0; // initial proportion of susceptible hosts
 }
 
@@ -127,24 +125,22 @@ transformed parameters {
   params[7] = kappa;
   params[8] = sigmaE_1;
   params[9] = sigmaE_2;
-  params[10] = sigmaC_1;
-  params[11] = sigmaC_2;
-  params[12] = 40000 * S0 * 1.974; //rho
-  params[13] = 1.0/3.0; //tau
-  params[14] = 1/(3.88+2); //gammaI_1
-  params[15] = 1/(1.12+2); //gammaI_2
-  params[16] = 1.0/18.0; //gammaC1
-  params[17] = 1.0/18.0; //gammaC3
-  params[18] = 0.70; //delta
-  params[19] = 0.05; //eta
-  params[20] = 0; //rho1
-  params[21] = 1; //kappa1
-  params[22] = 0.95; //epsilon
-  params[23] = 0; //sigmaE
-  params[24] = 0; //sigmaC
-  params[25] = N; //total population
+  params[10] = 40000 * S0 * 1.974; //rho
+  params[11] = 1.0/3.0; //tau
+  params[12] = 1/(3.88+2); //gammaI_1
+  params[13] = 1/(1.12+2); //gammaI_2
+  params[14] = 1.0/18.0; //gammaC1
+  params[15] = 1.0/18.0; //gammaC3
+  params[16] = 0.70; //delta
+  params[17] = 0.05; //eta
+  params[18] = 0; //rho1
+  params[19] = 1; //kappa1
+  params[20] = 0.95; //epsilon
+  params[21] = 0; //sigmaE
+  params[22] = 0; //sigmaC
+  params[23] = N; //total population
   
-  R0 = theta3*beta/params[13] + params[18]*beta/(p1*params[14]+(1-p1)*params[16]) + (1-params[18])*theta1*beta/params[16] + (params[18]*(1-p1-params[19])*params[16]/(p1*params[14]+(1-p1)*params[16])+(1-params[18]))*theta2*beta/params[16] + (params[18]*(1-p1-params[19])*params[16]/(p1*params[14]+(1-p1)*params[16])+(1-params[18]))*theta2*beta/params[17]*(1-params[22]);
+  R0 = theta3*beta/params[11] + params[16]*beta/(p1*params[12]+(1-p1)*params[14]) + (1-params[16])*theta1*beta/params[14] + (params[16]*(1-p1-params[17])*params[14]/(p1*params[12]+(1-p1)*params[14])+(1-params[16]))*theta2*beta/params[14] + (params[16]*(1-p1-params[17])*params[14]/(p1*params[12]+(1-p1)*params[14])+(1-params[16]))*theta2*beta/params[15]*(1-params[20]);
   
   y0[1] = N*S0-1;
   y0[2] = 0;
@@ -188,8 +184,6 @@ model {
   p2 ~ beta(27,6);
   sigmaE_1 ~ beta(1,1);
   sigmaE_2 ~ beta(1,1);
-  sigmaC_1 ~ beta(1,1);
-  sigmaC_2 ~ beta(1,1);
   
   y ~ poisson(inci_samp);
   
