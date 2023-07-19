@@ -84,7 +84,7 @@ stan_d = list(n_obs = length(cases_jakarta_week$date_of_the_year),
               t0 = 300,
               ts = cases_jakarta_week$date_of_the_year,
               fake_ts = fake_ts,
-              n_samples = length(times_of_observed),
+              n_samples = length(cases_jakarta_week$date_of_the_year),
               init=param_init)
 
 ##################################################################################
@@ -103,50 +103,28 @@ comp_model_pessimistic <- stan_model('codes/stan/diphtheria-model-pessimistic.st
 seed_optimistic <- 6813636
 seed_pessimistic <- 6592353
 
-mod_optimistic_c1 = sampling(comp_model_optimistic,
-                             data = stan_d,
-                             pars = params_monitor,
-                             chains = 1,
-                             seed = seed_optimistic,
-                             chain_id = 1,
-                             warmup = 300,
-                             init = "random",
-                             iter = 2000)
-# mod_optimistic_c2 = sampling(comp_model_optimistic,
-#                              data = stan_d,
-#                              pars = params_monitor,
-#                              chains = 1,
-#                              seed = seed_optimistic,
-#                              chain_id = 2,
-#                              warmup = 300,
-#                              init = "random",
-#                              iter = 2000)
-# mod_optimistic_all <- sflist2stanfit(list(mod_optimistic_c1, mod_optimistic_c2))
-# saveRDS(mod_optimistic_all,file="output/mod_optimistic_all.rds")
-# 
-# mod_pessimistic_c1 = sampling(comp_model_pessimistic,
+# mod_optimistic_all = sampling(comp_model_optimistic,
 #                               data = stan_d,
 #                               pars = params_monitor,
-#                               chains = 1,
-#                               seed = seed_pessimistic,
-#                               chain_id = 1,
+#                               chains = 2,
+#                               seed = seed_optimistic,
 #                               warmup = 300,
 #                               init = "random",
 #                               iter = 2000)
-# mod_pessimistic_c2 = sampling(comp_model_pessimistic,
-#                               data = stan_d,
-#                               pars = params_monitor,
-#                               chains = 1,
-#                               seed = seed_pessimistic,
-#                               chain_id = 2,
-#                               warmup = 300,
-#                               init = "random",
-#                               iter = 2000)
-# mod_pessimistic_all <- sflist2stanfit(list(mod_pessimistic_c1, mod_pessimistic_c2))
-# saveRDS(mod_pessimistic_all,file="output/mod_pessimistic_all.rds")
+# saveRDS(mod_optimistic_all,file="output/model/mod_optimistic_all.rds")
 
-mod_optimistic_all <- readRDS(file="output/mod_optimistic_all.rds")
-mod_pessimistic_all <- readRDS(file="output/mod_pessimistic_all.rds")
+# mod_pessimistic_all = sampling(comp_model_pessimistic,
+#                                data = stan_d,
+#                                pars = params_monitor,
+#                                chains = 2,
+#                                seed = seed_pessimistic,
+#                                warmup = 300,
+#                                init = "random",
+#                                iter = 2000)
+# saveRDS(mod_pessimistic_all,file="output/model/mod_pessimistic_all.rds")
+
+mod_optimistic_all <- readRDS(file="output/model/mod_optimistic_all.rds")
+mod_pessimistic_all <- readRDS(file="output/model/mod_pessimistic_all.rds")
 
 ##################################################################################
 # Compare models
@@ -186,10 +164,6 @@ mod_optimistic_posterior <- data.frame(beta=rstan::extract(mod_optimistic_all,in
                                                                inc_warmup=FALSE)$sigmaE_1,
                                        sigmaE_2=rstan::extract(mod_optimistic_all,
                                                                inc_warmup=FALSE)$sigmaE_2,
-                                       sigmaC_1=rstan::extract(mod_optimistic_all,
-                                                               inc_warmup=FALSE)$sigmaC_1,
-                                       sigmaC_2=rstan::extract(mod_optimistic_all,
-                                                               inc_warmup=FALSE)$sigmaC_2,
                                        R0=rstan::extract(mod_optimistic_all,inc_warmup=FALSE)$R0)
 
 mod_optimistic_summary <- data.frame(param=colnames(mod_optimistic_posterior),
@@ -218,10 +192,6 @@ mod_pessimistic_posterior <- data.frame(beta=rstan::extract(mod_pessimistic_all,
                                                                 inc_warmup=FALSE)$sigmaE_1,
                                         sigmaE_2=rstan::extract(mod_pessimistic_all,
                                                                 inc_warmup=FALSE)$sigmaE_2,
-                                        sigmaC_1=rstan::extract(mod_pessimistic_all,
-                                                                inc_warmup=FALSE)$sigmaC_1,
-                                        sigmaC_2=rstan::extract(mod_pessimistic_all,
-                                                                inc_warmup=FALSE)$sigmaC_2,
                                         R0=rstan::extract(mod_pessimistic_all,inc_warmup=FALSE)$R0)
 
 mod_pessimistic_summary <- data.frame(param=colnames(mod_pessimistic_posterior),
@@ -247,13 +217,13 @@ mod_pessimistic_quantiles_inci_samp <- colQuantiles(as.matrix(mod_pessimistic_in
 
 # plot estim and true data
 # optimistic model
-plot(1:18,incidence_observed,col="black",cex=1.5,
+plot(1:18,cases_jakarta_week$cases,col="black",cex=1.5,
      ylim=c(0,max(mod_optimistic_quantiles_inci_samp)),pch=16)
 lines(1:18,mod_optimistic_quantiles_inci_samp[,2],lwd=2,col="red")
 lines(1:18,mod_optimistic_quantiles_inci_samp[,1],lwd=2,lty=2,col="red")
 lines(1:18,mod_optimistic_quantiles_inci_samp[,3],lwd=2,lty=2,col="red")
 # pessimistic model
-plot(1:18,incidence_observed,col="black",cex=1.5,
+plot(1:18,cases_jakarta_week$cases,col="black",cex=1.5,
      ylim=c(0,max(mod_pessimistic_quantiles_inci_samp)),pch=16)
 lines(1:18,mod_pessimistic_quantiles_inci_samp[,2],lwd=2,col="red")
 lines(1:18,mod_pessimistic_quantiles_inci_samp[,1],lwd=2,lty=2,col="red")
@@ -265,20 +235,18 @@ lines(1:18,mod_pessimistic_quantiles_inci_samp[,3],lwd=2,lty=2,col="red")
 ## traceplots
 p_trace_optimistic <- stan_trace(mod_optimistic_all, pars = c("beta","theta1","theta2",
                                                               "theta3","p1","p2","kappa",
-                                                              "sigmaE_1","sigmaE_2",
-                                                              "sigmaC_1","sigmaC_2","S0","R0"),
+                                                              "sigmaE_1","sigmaE_2","S0","R0"),
                                  inc_warmup = TRUE,ncol=3) +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 p_trace_pessimistic <- stan_trace(mod_pessimistic_all, pars = c("beta","theta1","theta2",
                                                                 "theta3","p1","p2","kappa",
-                                                                "sigmaE_1","sigmaE_2",
-                                                                "sigmaC_1","sigmaC_2","S0","R0"),
+                                                                "sigmaE_1","sigmaE_2","S0","R0"),
                                   inc_warmup = TRUE,ncol=3) +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 p_trace_all <- plot_grid(p_trace_optimistic,p_trace_pessimistic,
                          labels=c("A","B"),ncol=1)
 
-ggsave("figures/new/p_trace.png", p_trace_all,
+ggsave("output/figures/p_trace.png", p_trace_all,
        width = 16, height = 26, units = "cm")
 
 ## parameter estimates
@@ -292,17 +260,14 @@ combined_posteriors <- rbind(mcmc_intervals_data(mod_optimistic_all,prob_outer =
                              mcmc_intervals_data(mod_pessimistic_all,prob_outer = 0.95)) %>% 
   filter(parameter %in% c("beta","theta1","theta2",
                           "theta3","p1","p2","kappa",
-                          "sigmaE_1","sigmaE_2",
-                          "sigmaC_1","sigmaC_2","S0","R0")) %>% 
+                          "sigmaE_1","sigmaE_2","S0","R0")) %>% 
   mutate(parameter=factor(parameter,levels=c("theta1","theta2",
                                              "theta3","p1","p2","kappa",
-                                             "sigmaE_1","sigmaE_2",
-                                             "sigmaC_1","sigmaC_2","beta","S0","R0")))
+                                             "sigmaE_1","sigmaE_2","beta","S0","R0")))
 combined_posteriors$model <- rep(c("Optimistic", "Pessimistic"), 
                                  each = length(c("beta","theta1","theta2",
                                                  "theta3","p1","p2","kappa",
-                                                 "sigmaE_1","sigmaE_2",
-                                                 "sigmaC_1","sigmaC_2","S0","R0")))
+                                                 "sigmaE_1","sigmaE_2","S0","R0")))
 
 # make the plot using ggplot 
 pos <- position_nudge(y = ifelse(combined_posteriors$model == "Pessimistic", -0.2, 0.2))
@@ -317,8 +282,18 @@ p_estimates <- ggplot(combined_posteriors, aes(x = m, y = parameter, color = mod
                       labels=c("Optimistic","Pessimistic"),
                       values=safe_colorblind_palette[c(7,9)])
 
-ggsave("figures/new/p_estimates.png", p_estimates,
+ggsave("output/figures/p_estimates.png", p_estimates,
        width = 16, height = 12, units = "cm")
+
+# tables of parameter estimates
+
+params_summary_optimistic <- tibble(data.frame(summary(mod_optimistic_all,
+                                                       params_monitor[1:11])$summary))
+params_summary_pessimistic <- tibble(data.frame(summary(mod_pessimistic_all,
+                                                        params_monitor[1:11])$summary))
+
+write_csv(params_summary_optimistic,"output/model/parameter_estimates_optimistic.csv")
+write_csv(params_summary_pessimistic,"output/model/parameter_estimates_pessimistic.csv")
 
 
 

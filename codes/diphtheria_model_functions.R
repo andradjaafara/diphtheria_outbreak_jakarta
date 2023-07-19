@@ -7,7 +7,7 @@
 
 model_name <- "Modelling diphtheria outbreak in Jakarta"
 model_state.names <- c("S","E","I","C1","C2","C3","R","V","Ev","In","As","Rt")
-model_theta.names <- c("beta","S0","theta1","theta2","theta3","p1","p2","kappa","sigmaE_1","sigmaE_2","sigmaC_1","sigmaC_2")
+model_theta.names <- c("beta","S0","theta1","theta2","theta3","p1","p2","kappa","sigmaE_1","sigmaE_2")
 
 model_simulateDeterministic <- function(theta,init.state,times) {
   
@@ -24,8 +24,6 @@ model_simulateDeterministic <- function(theta,init.state,times) {
     kappa = parameters[["kappa"]]
     sigmaE_1 = parameters[["sigmaE_1"]]
     sigmaE_2 = parameters[["sigmaE_2"]]
-    sigmaC_1 = parameters[["sigmaC_1"]]
-    sigmaC_2 = parameters[["sigmaC_2"]]
     rho = 40000 * S0 * 1.974 # 40000 roughly average per day vaccinated; times susceptible times 1.974531 ratio S in children to overall S
     tau = 1/3
     gammaI_1 = 1/(3.88+2) # added two days for clearance process from medication
@@ -60,41 +58,41 @@ model_simulateDeterministic <- function(theta,init.state,times) {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_2 * E
       dI  = delta * tau * E - p2 * gammaI_1 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_2 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev) + sigmaC_2 * C1
+      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev)
       dV  = rho - beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_2 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1+sigmaC_2)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
     } else if (time > 359 & time <= 372) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else if (time > 344 & time <= 359) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho1 - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE * E
@@ -136,8 +134,6 @@ model_prior <- function(theta, log = FALSE) {
   kappa = theta[["kappa"]]
   sigmaE_1 = theta[["sigmaE_1"]]
   sigmaE_2 = theta[["sigmaE_2"]]
-  sigmaC_1 = theta[["sigmaC_1"]]
-  sigmaC_2 = theta[["sigmaC_2"]]
   tau = 1/3
   gammaI_1 = 1/(3.88+2)
   gammaI_2 = 1/(1.12+2)
@@ -168,14 +164,12 @@ model_prior <- function(theta, log = FALSE) {
   log.prior.p2 <- dbeta(theta[["p2"]], shape1=27, shape2=6, log = TRUE)
   log.prior.sigmaE_1 <- dbeta(theta[["sigmaE_1"]], shape1=1, shape2=1, log = TRUE)
   log.prior.sigmaE_2 <- dbeta(theta[["sigmaE_2"]], shape1=1, shape2=1, log = TRUE)
-  log.prior.sigmaC_1 <- dbeta(theta[["sigmaC_1"]], shape1=1, shape2=1, log = TRUE)
-  log.prior.sigmaC_2 <- dbeta(theta[["sigmaC_2"]], shape1=1, shape2=1, log = TRUE)
   
   #log.sum <- log.prior.R0 + log.prior.S0 + log.prior.theta1 + log.prior.theta2 + log.prior.theta3 + log.prior.p1 + log.prior.p2 +
-  #  log.prior.rho + log.prior.kappa + log.prior.sigmaE_1 + log.prior.sigmaE_2 + log.prior.sigmaC_1 + log.prior.sigmaC_2
+  #  log.prior.rho + log.prior.kappa + log.prior.sigmaE_1 + log.prior.sigmaE_2
   
   log.sum <- log.prior.R0 + log.prior.S0 + log.prior.theta1 + log.prior.theta2 + log.prior.theta3 + log.prior.p1 + log.prior.p2 +
-    log.prior.kappa + log.prior.sigmaE_1 + log.prior.sigmaE_2 + log.prior.sigmaC_1 + log.prior.sigmaC_2
+    log.prior.kappa + log.prior.sigmaE_1 + log.prior.sigmaE_2
   
   return(ifelse(log, log.sum, exp(log.sum)))
 }
@@ -305,14 +299,14 @@ my_dLogPosterior_diphtheria_more_params_final <- function(theta, par2=c(300,0.5,
   
 }
 
-process_model_parameters_deterministic <- function(param,param.post,seed){
+process_model_parameters_deterministic <- function(param,param.post,times_of_observed,seed){
   set.seed(seed)
   sample.index.CI <- sample(1:3400,5000,replace=TRUE)
-  param.samples <- param.post[sample.index.CI,1:13]
+  param.samples <- param.post[sample.index.CI,1:11]
   init.state = c(S=0, E=0, I=0, C1=0, C2=0, C3=0, R=0, V=0, Ev=0, In=0, As=0, Rt=0)
   t0 = 300
   tmin = 300
-  tmax = max(times_of_observed)-1
+  tmax = max(times_of_observed)
   
   xtick = c(319,335,349,366,380,397,411,425)
   xlabel = c("15-Nov","01-Dec","15-Dec","01-Jan","15-Jan","01-Feb","15-Feb","01-Mar")
@@ -344,9 +338,9 @@ process_model_parameters_deterministic <- function(param,param.post,seed){
   }
   traj <- diphmodel_more_params_final$simulate(param, init.state, times.output)
   
-  data.diff = diff(traj$In)
+  data.diff = diff(traj$In)[-(1:2)]
   R_eff = diff(traj$Rt)
-  R_eff = R_eff[8:length(R_eff)]
+  R_eff = R_eff[10:length(R_eff)]
   
   diff.t = 344 - (t0)
   diff.t2 = diff.t + 1
@@ -386,9 +380,9 @@ process_model_parameters_deterministic <- function(param,param.post,seed){
     }
     traj <- diphmodel_more_params_final$simulate(param.CI, init.state, times.output)
     
-    data.diff = diff(traj$In)
+    data.diff = diff(traj$In)[-(1:2)]
     R_eff = diff(traj$Rt)
-    R_eff = R_eff[8:length(R_eff)]
+    R_eff = R_eff[10:length(R_eff)]
     data.diff3 = data.diff
     
     diff.t = 344 - (t0)
@@ -511,7 +505,7 @@ process_model_parameters_deterministic <- function(param,param.post,seed){
   colnames(simulation.summary.all) = c("time","median","mean","q25","q75","q2.5","q97.5")
   simulation.summary.all$time <- times_of_observed
   colnames(Reff.summary) = c("time","median","mean","q25","q75","q2.5","q97.5")
-  Reff.summary$time <- times.output[9:length(times.output)]
+  Reff.summary$time <- times.output[11:length(times.output)]
   colnames(total.summary) = c("median","mean","q25","q75","q2.5","q97.5")
   colnames(total.summary.all) = c("median","mean","q25","q75","q2.5","q97.5")
   
@@ -541,66 +535,67 @@ process_model_deterministic_plot <- function(data,
   xlabel = c("15-Nov","01-Dec","15-Dec","01-Jan","15-Jan","01-Feb","15-Feb","01-Mar")
   
   tmin = 300
-  tmax = max(times_of_observed)-1
+  tmax = max(times_of_observed)
   times.output = seq(tmin,tmax)
   
-  p_formula <- ~{ 
-    par(mar=c(3, 3, 2, 3))
-    par(mgp=c(5,1,0))
-    ymax=80
-    plot(times_of_observed
+  par(mar=c(3, 3, 2, 3))
+  par(mgp=c(5,1,0))
+  ymax=80
+  plot(times_of_observed
+       ,incidence_observed
+       ,cex.main=0.8
+       ,ylim=c(0,1.05*ymax)
+       # ,xlab="Time"
+       # ,ylab="Incidence"
+       ,cex=2,pch=16,xaxt="n")
+  title(ylab="Incidence", line=2, cex.lab=1)
+  title(xlab="Time", line=2, cex.lab=1)
+  polygon(c(times_of_observed, rev(times_of_observed)), c(simulation.summary$q97.5, rev(simulation.summary$q2.5)),
+          col = "rosybrown1", border = NA)
+  polygon(c(times_of_observed, rev(times_of_observed)), c(simulation.summary$q75, rev(simulation.summary$q25)),
+          col = "indianred1", border = NA)
+  points(times_of_observed
          ,incidence_observed
          ,cex.main=0.8
-         ,ylim=c(0,1.05*ymax)
-         # ,xlab="Time"
-         # ,ylab="Incidence"
-         ,cex=2,pch=16,xaxt="n")
-    title(ylab="Incidence", line=2, cex.lab=1)
-    title(xlab="Time", line=2, cex.lab=1)
-    polygon(c(times_of_observed, rev(times_of_observed)), c(simulation.summary$q97.5, rev(simulation.summary$q2.5)),
-            col = "rosybrown1", border = NA)
-    polygon(c(times_of_observed, rev(times_of_observed)), c(simulation.summary$q75, rev(simulation.summary$q25)),
-            col = "indianred1", border = NA)
-    points(times_of_observed
-           ,incidence_observed
-           ,cex.main=0.8
-           ,ylim=c(0,1.2*ymax)
-           ,xlab="Time"
-           ,ylab="Incidence"
-           ,cex=2,pch=16)
-    lines(times_of_observed
-          ,simulation.summary$median
-          ,col="red4"
-          ,lwd=3)
-    lines(times_of_observed
-          ,simulation.summary$mean
-          ,col="red4"
-          ,lwd=3,lty=2)
-    abline(v=344.5,lwd=3,lty=2,col="blue")
-    text(346.5,1,"Start of catch up vaccinations program (ORI)",cex=0.75,adj=0)
-    
-    abline(v=365,lwd=3,lty=2,col="green")
-    text(367,1.05*ymax,"Start of new year 2018",cex=0.75,adj=0)
-    
-    color_transparent <- adjustcolor('forestgreen', alpha.f = 0.3)
-    polygon(c(357,372,372,357),c(-5,-5,100005,100005),col=color_transparent,border=NA)
-    
-    #abline(v=333,lwd=3,lty=2,col="orange")
-    #text(335,90,"Declaration of diphtheria outbreak in Jakarta/Indonesia",cex=0.75,adj=0)
-    
-    legend(390,1.05*ymax,c("50% CI","95% CI","School Holiday"),fill=c("indianred1","rosybrown1",color_transparent),
-           border=c("indianred1","rosybrown1",color_transparent),bty="n",cex=1)
-    
-    axis(1, at=xtick, labels=xlabel)
-    
-    par(new=TRUE)
-    plot(times.output[9:length(times.output)],Reff.summary$median,lwd=4,xlab="",ylab="",ylim=c(0,4),
-         axes=FALSE,type="l",col="orange",lty=2)
-    mtext("Effective reproduction number (Rt)",side=4,col="black",line=1.7)
-    axis(4,ylim=c(0,4),col="black",col.axis="black",las=1)
-    abline(h=1,col="orange",lwd=3)
-  }
-  return(p_formula)
+         ,ylim=c(0,1.2*ymax)
+         ,xlab="Time"
+         ,ylab="Incidence"
+         ,cex=2,pch=16)
+  lines(times_of_observed
+        ,simulation.summary$median
+        ,col="red4"
+        ,lwd=3)
+  lines(times_of_observed
+        ,simulation.summary$mean
+        ,col="red4"
+        ,lwd=3,lty=2)
+  abline(v=344.5,lwd=3,lty=2,col="blue")
+  text(346.5,1,"Start of catch up vaccinations program (ORI)",cex=0.75,adj=0)
+  
+  abline(v=365,lwd=3,lty=2,col="green")
+  text(367,1.05*ymax,"Start of new year 2018",cex=0.75,adj=0)
+  
+  color_transparent <- adjustcolor('forestgreen', alpha.f = 0.3)
+  polygon(c(357,372,372,357),c(-5,-5,100005,100005),col=color_transparent,border=NA)
+  
+  #abline(v=333,lwd=3,lty=2,col="orange")
+  #text(335,90,"Declaration of diphtheria outbreak in Jakarta/Indonesia",cex=0.75,adj=0)
+  
+  legend(390,1.05*ymax,c("50% CI","95% CI","School Holiday"),fill=c("indianred1","rosybrown1",color_transparent),
+         border=c("indianred1","rosybrown1",color_transparent),bty="n",cex=1)
+  
+  axis(1, at=xtick, labels=xlabel)
+  
+  par(new=TRUE)
+  plot(times.output[11:length(times.output)],Reff.summary$median,lwd=4,xlab="",ylab="",ylim=c(0,4),
+       axes=FALSE,type="l",col="orange",lty=2)
+  mtext("Effective reproduction number (Rt)",side=4,col="black",line=1.7)
+  mtext("Incidence",side=2,col="black",line=1.7)
+  axis(4,ylim=c(0,4),col="black",col.axis="black",las=1)
+  abline(h=1,col="orange",lwd=3)  
+  
+  p_output <- recordPlot()
+  return(p_output)
 }
 
 #### From here are different models for different intervention scenarios:
@@ -627,8 +622,6 @@ model_baseline <- function(theta,init.state,times) {
     kappa = parameters[["kappa"]]
     sigmaE_1 = parameters[["sigmaE_1"]]
     sigmaE_2 = parameters[["sigmaE_2"]]
-    sigmaC_1 = parameters[["sigmaC_1"]]
-    sigmaC_2 = parameters[["sigmaC_2"]]
     rho = 40000 * S0 * 1.974 # 40000 roughly average per day vaccinated; times susceptible times 1.974531 ratio S in children to overall S
     tau = 1/3
     gammaI_1 = 1/(3.88+2) # added two days for clearance process from medication
@@ -663,41 +656,41 @@ model_baseline <- function(theta,init.state,times) {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_2 * E
       dI  = delta * tau * E - p2 * gammaI_1 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_2 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev) + sigmaC_2 * C1
+      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev)
       dV  = rho - beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_2 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1+sigmaC_2)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
     } else if (time > 359 & time <= 372) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else if (time > 344 & time <= 359) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho1 - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE * E
@@ -742,8 +735,6 @@ model_without_ORI <- function(theta,init.state,times) {
     kappa = parameters[["kappa"]]
     sigmaE_1 = parameters[["sigmaE_1"]]
     sigmaE_2 = parameters[["sigmaE_2"]]
-    sigmaC_1 = parameters[["sigmaC_1"]]
-    sigmaC_2 = parameters[["sigmaC_2"]]
     rho = 0
     tau = 1/3
     gammaI_1 = 1/(3.88+2) # added two days for clearance process from medication
@@ -778,41 +769,41 @@ model_without_ORI <- function(theta,init.state,times) {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_2 * E
       dI  = delta * tau * E - p2 * gammaI_1 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_2 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev) + sigmaC_2 * C1
+      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev)
       dV  = rho - beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_2 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1+sigmaC_2)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
     } else if (time > 359 & time <= 372) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else if (time > 344 & time <= 359) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho1 - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE * E
@@ -857,8 +848,6 @@ model_without_CT <- function(theta,init.state,times) {
     kappa = parameters[["kappa"]]
     sigmaE_1 = 0
     sigmaE_2 = 0
-    sigmaC_1 = 0
-    sigmaC_2 = 0
     rho = 40000 * S0 * 1.974 # 40000 roughly average per day vaccinated; times susceptible times 1.974531 ratio S in children to overall S
     tau = 1/3
     gammaI_1 = 1/(3.88+2) # added two days for clearance process from medication
@@ -893,41 +882,41 @@ model_without_CT <- function(theta,init.state,times) {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_2 * E
       dI  = delta * tau * E - p2 * gammaI_1 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_2 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev) + sigmaC_2 * C1
+      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev)
       dV  = rho - beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_2 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1+sigmaC_2)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
     } else if (time > 359 & time <= 372) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else if (time > 344 & time <= 359) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho1 - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE * E
@@ -972,8 +961,6 @@ model_delayed_ORI <- function(theta,init.state,times) {
     kappa = parameters[["kappa"]]
     sigmaE_1 = parameters[["sigmaE_1"]]
     sigmaE_2 = parameters[["sigmaE_2"]]
-    sigmaC_1 = parameters[["sigmaC_1"]]
-    sigmaC_2 = parameters[["sigmaC_2"]]
     rho = 40000 * S0 * 1.974 # 40000 roughly average per day vaccinated; times susceptible times 1.974531 ratio S in children to overall S
     tau = 1/3
     gammaI_1 = 1/(3.88+2) # added two days for clearance process from medication
@@ -1008,41 +995,41 @@ model_delayed_ORI <- function(theta,init.state,times) {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_2 * E
       dI  = delta * tau * E - p2 * gammaI_1 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_2 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev) + sigmaC_2 * C1
+      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev)
       dV  = rho - beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_2 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1+sigmaC_2)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
     } else if (time > 359 & time <= 372) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho1 - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else if (time > 344 & time <= 359) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho1 - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE * E
@@ -1087,8 +1074,6 @@ model_more_ORI <- function(theta,init.state,times) {
     kappa = parameters[["kappa"]]
     sigmaE_1 = parameters[["sigmaE_1"]]
     sigmaE_2 = parameters[["sigmaE_2"]]
-    sigmaC_1 = parameters[["sigmaC_1"]]
-    sigmaC_2 = parameters[["sigmaC_2"]]
     rho = 2 * 40000 * S0 * 1.974 # 80000 roughly average per day vaccinated (twice the normal); times susceptible times 1.974531 ratio S in children to overall S
     tau = 1/3
     gammaI_1 = 1/(3.88+2) # added two days for clearance process from medication
@@ -1123,41 +1108,41 @@ model_more_ORI <- function(theta,init.state,times) {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_2 * E
       dI  = delta * tau * E - p2 * gammaI_1 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_2 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev) + sigmaC_2 * C1
+      dR  = p2 * gammaI_1 * I + epsilon * gammaC1 * C2 + sigmaE_2 * (E + Ev)
       dV  = rho - beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_2 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1+sigmaC_2)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1+sigmaC_2)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + V/(S+V+R)*theta3*beta*kappa1/(tau+sigmaE_2) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*beta*kappa1/(p2*gammaI_1+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(theta1*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_2))*((1-p2-eta)*gammaC1/(p2*gammaI_1+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_2))+(V/(S+V+R))*(tau/(tau+sigmaE_2)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa1/(gammaC3))*(1-epsilon)
     } else if (time > 359 & time <= 372) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else if (time > 344 & time <= 359) {
       dS  = -beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE_1 * E
       dI  = delta * tau * E - p2 * gammaI_2 * I - (1 - p2) * gammaC1 * I
-      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1 - sigmaC_1 * C1
+      dC1 = (1 - delta) * tau * E + tau * Ev - gammaC1 * C1
       dC2 = (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 - gammaC1 * C2
       dC3 = (1 - epsilon) * gammaC1 * C2 - gammaC3 * C3
-      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev) + sigmaC_1 * C1
+      dR  = p2 * gammaI_2 * I + epsilon * gammaC1 * C2 + sigmaE_1 * (E + Ev)
       dV  = rho1 - beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N
       dEv = beta * kappa * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * V/N - tau * Ev - sigmaE_1 * Ev
       dIn = delta * tau * E
       dAs = (1 - delta) * tau * E + (1 - p2 - eta) * gammaC1 * I + gammaC1 * C1 + (1 - epsilon) * gammaC1 * C2
-      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1+sigmaC_1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1+sigmaC_1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
+      dRt  = S/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + V/(S+V+R)*theta3*beta*kappa/(tau+sigmaE_1) + delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*beta*kappa/(p2*gammaI_2+(1-p2)*gammaC1) + ((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(theta1*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC1)) + (delta*(S/(S+V+R))*(tau/(tau+sigmaE_1))*((1-p2-eta)*gammaC1/(p2*gammaI_2+(1-p2)*gammaC1))+((1-delta)*(S/(S+V+R))*(tau/(tau+sigmaE_1))+(V/(S+V+R))*(tau/(tau+sigmaE_1)))*(gammaC1/(gammaC1)))*(theta2*beta*kappa/(gammaC3))*(1-epsilon)
     } else {
       dS  = -beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N + eta * gammaC1 * I - rho1
       dE  = beta * kappa1 * (I + theta1 * C1 + theta2 * (C2 + C3) + theta3 * (E + Ev)) * S/N - tau * E - sigmaE * E
@@ -1192,7 +1177,7 @@ calculate_diff <- function(posterior_samples,sim_model,seed.set){
   # param.post <- read.csv("output/trace-both-100k-full-final-mod-6-phase4.csv", header = T)
   param.post <- posterior_samples
   
-  param.samples <- param.post[sample.index.CI,1:12]
+  param.samples <- param.post[sample.index.CI,1:11]
   
   CI.samples <- matrix(nrow=5000,ncol=length(incidence_observed))
   CI.samples.total <- vector()
@@ -1207,7 +1192,7 @@ calculate_diff <- function(posterior_samples,sim_model,seed.set){
   Reff.samples.baseline <- matrix(nrow=5000,ncol=119)
   
   tmin = 300
-  tmax = max(times_of_observed)-1
+  tmax = max(times_of_observed)
   t0 <- 300
   times.output = seq(tmin,tmax)
   
@@ -1228,9 +1213,9 @@ calculate_diff <- function(posterior_samples,sim_model,seed.set){
     }
     traj <- sim_model(param.CI, init.state, times.output)
     
-    data.diff = diff(traj$In)
+    data.diff = diff(traj$In)[-(1:2)]
     R_eff = diff(traj$Rt)
-    R_eff = R_eff[8:length(R_eff)]
+    R_eff = R_eff[10:length(R_eff)]
     data.diff3 = data.diff
     
     diff.t = 344 - (t0)
@@ -1270,9 +1255,9 @@ calculate_diff <- function(posterior_samples,sim_model,seed.set){
     }
     traj <- model_baseline(param.CI, init.state, times.output)
     
-    data.diff = diff(traj$In)
+    data.diff = diff(traj$In)[-(1:2)]
     R_eff = diff(traj$Rt)
-    R_eff = R_eff[8:length(R_eff)]
+    R_eff = R_eff[10:length(R_eff)]
     data.diff3 = data.diff
     
     diff.t = 344 - (t0)
