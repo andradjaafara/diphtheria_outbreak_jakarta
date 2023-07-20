@@ -287,9 +287,9 @@ ggsave("output/figures/p_estimates.png", p_estimates,
 
 # tables of parameter estimates
 
-params_summary_optimistic <- tibble(data.frame(summary(mod_optimistic_all,
+params_summary_optimistic <- rownames_to_column(data.frame(summary(mod_optimistic_all,
                                                        params_monitor[1:11])$summary))
-params_summary_pessimistic <- tibble(data.frame(summary(mod_pessimistic_all,
+params_summary_pessimistic <- rownames_to_column(data.frame(summary(mod_pessimistic_all,
                                                         params_monitor[1:11])$summary))
 
 write_csv(params_summary_optimistic,"output/model/parameter_estimates_optimistic.csv")
