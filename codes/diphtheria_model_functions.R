@@ -193,13 +193,13 @@ model_genObsPoint <- function(model.point, theta){
 }
 
 ## create deterministic model fitmodel
-diphmodel_more_params_final <- fitmodel(name = model_name,
-                                        state.names = model_state.names,
-                                        theta.names = model_theta.names,
-                                        simulate = model_simulateDeterministic,
-                                        dprior = model_prior,
-                                        rPointObs = model_genObsPoint,
-                                        dPointObs = model_pointLike)
+diphmodel_more_params_final <- fitR::fitmodel(name = model_name,
+                                              state.names = model_state.names,
+                                              theta.names = model_theta.names,
+                                              simulate = model_simulateDeterministic,
+                                              dprior = model_prior,
+                                              rPointObs = model_genObsPoint,
+                                              dPointObs = model_pointLike)
 
 ### CREATE FUNCTIONS FOR TO CALCULATE LOG POSTERIOR MCMC
 ## calculate log-likelihood from model estimates compared to data; modified from original to accomodate weekly data

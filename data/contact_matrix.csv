@@ -1,0 +1,257 @@
+iso3c,setting,location_contact,age_contactor,age_cotactee,mean_number_of_contacts
+IDN,urban,all,0 to 4,0 to 4,2.23974
+IDN,urban,all,5 to 9,0 to 4,1.62102
+IDN,urban,all,10 to 14,0 to 4,0.54133
+IDN,urban,all,15 to 19,0 to 4,0.39437
+IDN,urban,all,20 to 24,0 to 4,0.49195
+IDN,urban,all,25 to 29,0 to 4,0.96659
+IDN,urban,all,30 to 34,0 to 4,0.98345
+IDN,urban,all,35 to 39,0 to 4,0.91781
+IDN,urban,all,40 to 44,0 to 4,0.68778
+IDN,urban,all,45 to 49,0 to 4,0.43169
+IDN,urban,all,50 to 54,0 to 4,0.41454
+IDN,urban,all,55 to 59,0 to 4,0.61587
+IDN,urban,all,60 to 64,0 to 4,0.64586
+IDN,urban,all,65 to 69,0 to 4,0.44571
+IDN,urban,all,70 to 74,0 to 4,0.29413
+IDN,urban,all,75+,0 to 4,0.33313
+IDN,urban,all,0 to 4,5 to 9,1.14798
+IDN,urban,all,5 to 9,5 to 9,7.15523
+IDN,urban,all,10 to 14,5 to 9,3.04077
+IDN,urban,all,15 to 19,5 to 9,0.68543
+IDN,urban,all,20 to 24,5 to 9,0.48192
+IDN,urban,all,25 to 29,5 to 9,0.55676
+IDN,urban,all,30 to 34,5 to 9,1.08307
+IDN,urban,all,35 to 39,5 to 9,1.22779
+IDN,urban,all,40 to 44,5 to 9,0.92714
+IDN,urban,all,45 to 49,5 to 9,0.50482
+IDN,urban,all,50 to 54,5 to 9,0.44088
+IDN,urban,all,55 to 59,5 to 9,0.54726
+IDN,urban,all,60 to 64,5 to 9,0.5517
+IDN,urban,all,65 to 69,5 to 9,0.51969
+IDN,urban,all,70 to 74,5 to 9,0.55939
+IDN,urban,all,75+,5 to 9,0.3724
+IDN,urban,all,0 to 4,10 to 14,0.72272
+IDN,urban,all,5 to 9,10 to 14,1.45143
+IDN,urban,all,10 to 14,10 to 14,12.59053
+IDN,urban,all,15 to 19,10 to 14,4.03612
+IDN,urban,all,20 to 24,10 to 14,0.58552
+IDN,urban,all,25 to 29,10 to 14,0.42848
+IDN,urban,all,30 to 34,10 to 14,0.80563
+IDN,urban,all,35 to 39,10 to 14,0.95697
+IDN,urban,all,40 to 44,10 to 14,1.14034
+IDN,urban,all,45 to 49,10 to 14,0.76477
+IDN,urban,all,50 to 54,10 to 14,0.73305
+IDN,urban,all,55 to 59,10 to 14,0.64728
+IDN,urban,all,60 to 64,10 to 14,0.51669
+IDN,urban,all,65 to 69,10 to 14,0.42071
+IDN,urban,all,70 to 74,10 to 14,0.53443
+IDN,urban,all,75+,10 to 14,0.47263
+IDN,urban,all,0 to 4,15 to 19,0.53677
+IDN,urban,all,5 to 9,15 to 19,0.61958
+IDN,urban,all,10 to 14,15 to 19,1.31559
+IDN,urban,all,15 to 19,15 to 19,12.55394
+IDN,urban,all,20 to 24,15 to 19,2.72912
+IDN,urban,all,25 to 29,15 to 19,1.13673
+IDN,urban,all,30 to 34,15 to 19,0.64109
+IDN,urban,all,35 to 39,15 to 19,0.96207
+IDN,urban,all,40 to 44,15 to 19,1.07217
+IDN,urban,all,45 to 49,15 to 19,1.24101
+IDN,urban,all,50 to 54,15 to 19,1.0544
+IDN,urban,all,55 to 59,15 to 19,0.69406
+IDN,urban,all,60 to 64,15 to 19,0.51117
+IDN,urban,all,65 to 69,15 to 19,0.35751
+IDN,urban,all,70 to 74,15 to 19,0.64443
+IDN,urban,all,75+,15 to 19,0.45176
+IDN,urban,all,0 to 4,20 to 24,0.73619
+IDN,urban,all,5 to 9,20 to 24,0.4509
+IDN,urban,all,10 to 14,20 to 24,0.6545
+IDN,urban,all,15 to 19,20 to 24,1.61633
+IDN,urban,all,20 to 24,20 to 24,3.72497
+IDN,urban,all,25 to 29,20 to 24,2.37172
+IDN,urban,all,30 to 34,20 to 24,1.29218
+IDN,urban,all,35 to 39,20 to 24,0.98082
+IDN,urban,all,40 to 44,20 to 24,1.19573
+IDN,urban,all,45 to 49,20 to 24,1.15022
+IDN,urban,all,50 to 54,20 to 24,1.34884
+IDN,urban,all,55 to 59,20 to 24,0.9751
+IDN,urban,all,60 to 64,20 to 24,0.72785
+IDN,urban,all,65 to 69,20 to 24,0.53797
+IDN,urban,all,70 to 74,20 to 24,0.41439
+IDN,urban,all,75+,20 to 24,0.32957
+IDN,urban,all,0 to 4,25 to 29,1.08702
+IDN,urban,all,5 to 9,25 to 29,0.84003
+IDN,urban,all,10 to 14,25 to 29,0.64084
+IDN,urban,all,15 to 19,25 to 29,0.8426
+IDN,urban,all,20 to 24,25 to 29,1.76301
+IDN,urban,all,25 to 29,25 to 29,2.77511
+IDN,urban,all,30 to 34,25 to 29,1.82701
+IDN,urban,all,35 to 39,25 to 29,1.44185
+IDN,urban,all,40 to 44,25 to 29,1.27732
+IDN,urban,all,45 to 49,25 to 29,1.14783
+IDN,urban,all,50 to 54,25 to 29,1.55758
+IDN,urban,all,55 to 59,25 to 29,1.4205
+IDN,urban,all,60 to 64,25 to 29,1.04107
+IDN,urban,all,65 to 69,25 to 29,0.71317
+IDN,urban,all,70 to 74,25 to 29,0.59083
+IDN,urban,all,75+,25 to 29,0.34328
+IDN,urban,all,0 to 4,30 to 34,1.27309
+IDN,urban,all,5 to 9,30 to 34,1.2053
+IDN,urban,all,10 to 14,30 to 34,0.78584
+IDN,urban,all,15 to 19,30 to 34,0.6312
+IDN,urban,all,20 to 24,30 to 34,1.02542
+IDN,urban,all,25 to 29,30 to 34,1.74802
+IDN,urban,all,30 to 34,30 to 34,2.07378
+IDN,urban,all,35 to 39,30 to 34,1.6891
+IDN,urban,all,40 to 44,30 to 34,1.53185
+IDN,urban,all,45 to 49,30 to 34,1.22335
+IDN,urban,all,50 to 54,30 to 34,1.27933
+IDN,urban,all,55 to 59,30 to 34,1.47733
+IDN,urban,all,60 to 64,30 to 34,1.20916
+IDN,urban,all,65 to 69,30 to 34,1.00988
+IDN,urban,all,70 to 74,30 to 34,0.59924
+IDN,urban,all,75+,30 to 34,0.52134
+IDN,urban,all,0 to 4,35 to 39,1.12303
+IDN,urban,all,5 to 9,35 to 39,1.27217
+IDN,urban,all,10 to 14,35 to 39,1.18964
+IDN,urban,all,15 to 19,35 to 39,0.95343
+IDN,urban,all,20 to 24,35 to 39,0.86023
+IDN,urban,all,25 to 29,35 to 39,1.33131
+IDN,urban,all,30 to 34,35 to 39,1.77815
+IDN,urban,all,35 to 39,35 to 39,2.26298
+IDN,urban,all,40 to 44,35 to 39,1.83595
+IDN,urban,all,45 to 49,35 to 39,1.47319
+IDN,urban,all,50 to 54,35 to 39,1.23818
+IDN,urban,all,55 to 59,35 to 39,1.17043
+IDN,urban,all,60 to 64,35 to 39,1.34245
+IDN,urban,all,65 to 69,35 to 39,1.05248
+IDN,urban,all,70 to 74,35 to 39,0.98278
+IDN,urban,all,75+,35 to 39,0.68118
+IDN,urban,all,0 to 4,40 to 44,0.73888
+IDN,urban,all,5 to 9,40 to 44,1.09614
+IDN,urban,all,10 to 14,40 to 44,1.26083
+IDN,urban,all,15 to 19,40 to 44,1.02963
+IDN,urban,all,20 to 24,40 to 44,0.81362
+IDN,urban,all,25 to 29,40 to 44,1.05216
+IDN,urban,all,30 to 34,40 to 44,1.25761
+IDN,urban,all,35 to 39,40 to 44,1.84517
+IDN,urban,all,40 to 44,40 to 44,2.04714
+IDN,urban,all,45 to 49,40 to 44,1.53127
+IDN,urban,all,50 to 54,40 to 44,1.5287
+IDN,urban,all,55 to 59,40 to 44,1.17185
+IDN,urban,all,60 to 64,40 to 44,1.0276
+IDN,urban,all,65 to 69,40 to 44,1.02573
+IDN,urban,all,70 to 74,40 to 44,1.12916
+IDN,urban,all,75+,40 to 44,0.78548
+IDN,urban,all,0 to 4,45 to 49,0.47781
+IDN,urban,all,5 to 9,45 to 49,0.58698
+IDN,urban,all,10 to 14,45 to 49,0.81979
+IDN,urban,all,15 to 19,45 to 49,0.9436
+IDN,urban,all,20 to 24,45 to 49,0.91996
+IDN,urban,all,25 to 29,45 to 49,0.90121
+IDN,urban,all,30 to 34,45 to 49,0.91293
+IDN,urban,all,35 to 39,45 to 49,1.11975
+IDN,urban,all,40 to 44,45 to 49,1.41053
+IDN,urban,all,45 to 49,45 to 49,1.43026
+IDN,urban,all,50 to 54,45 to 49,1.53305
+IDN,urban,all,55 to 59,45 to 49,0.91851
+IDN,urban,all,60 to 64,45 to 49,0.76271
+IDN,urban,all,65 to 69,45 to 49,0.58007
+IDN,urban,all,70 to 74,45 to 49,0.83717
+IDN,urban,all,75+,45 to 49,0.74124
+IDN,urban,all,0 to 4,50 to 54,0.47425
+IDN,urban,all,5 to 9,50 to 54,0.40873
+IDN,urban,all,10 to 14,50 to 54,0.48954
+IDN,urban,all,15 to 19,50 to 54,0.54004
+IDN,urban,all,20 to 24,50 to 54,0.62149
+IDN,urban,all,25 to 29,50 to 54,0.83709
+IDN,urban,all,30 to 34,50 to 54,0.73568
+IDN,urban,all,35 to 39,50 to 54,0.74156
+IDN,urban,all,40 to 44,50 to 54,0.86239
+IDN,urban,all,45 to 49,50 to 54,0.96494
+IDN,urban,all,50 to 54,50 to 54,1.10713
+IDN,urban,all,55 to 59,50 to 54,1.00895
+IDN,urban,all,60 to 64,50 to 54,0.64285
+IDN,urban,all,65 to 69,50 to 54,0.51598
+IDN,urban,all,70 to 74,50 to 54,0.52503
+IDN,urban,all,75+,50 to 54,0.56196
+IDN,urban,all,0 to 4,55 to 59,0.43947
+IDN,urban,all,5 to 9,55 to 59,0.36108
+IDN,urban,all,10 to 14,55 to 59,0.31183
+IDN,urban,all,15 to 19,55 to 59,0.30932
+IDN,urban,all,20 to 24,55 to 59,0.40804
+IDN,urban,all,25 to 29,55 to 59,0.5087
+IDN,urban,all,30 to 34,55 to 59,0.58369
+IDN,urban,all,35 to 39,55 to 59,0.49393
+IDN,urban,all,40 to 44,55 to 59,0.40373
+IDN,urban,all,45 to 49,55 to 59,0.4893
+IDN,urban,all,50 to 54,55 to 59,0.7539
+IDN,urban,all,55 to 59,55 to 59,0.80539
+IDN,urban,all,60 to 64,55 to 59,0.74389
+IDN,urban,all,65 to 69,55 to 59,0.51885
+IDN,urban,all,70 to 74,55 to 59,0.42144
+IDN,urban,all,75+,55 to 59,0.36042
+IDN,urban,all,0 to 4,60 to 64,0.32195
+IDN,urban,all,5 to 9,60 to 64,0.31858
+IDN,urban,all,10 to 14,60 to 64,0.23916
+IDN,urban,all,15 to 19,60 to 64,0.21942
+IDN,urban,all,20 to 24,60 to 64,0.23708
+IDN,urban,all,25 to 29,60 to 64,0.3249
+IDN,urban,all,30 to 34,60 to 64,0.40363
+IDN,urban,all,35 to 39,60 to 64,0.43648
+IDN,urban,all,40 to 44,60 to 64,0.36722
+IDN,urban,all,45 to 49,60 to 64,0.31271
+IDN,urban,all,50 to 54,60 to 64,0.39706
+IDN,urban,all,55 to 59,60 to 64,0.55586
+IDN,urban,all,60 to 64,60 to 64,0.57956
+IDN,urban,all,65 to 69,60 to 64,0.53484
+IDN,urban,all,70 to 74,60 to 64,0.621
+IDN,urban,all,75+,60 to 64,0.29542
+IDN,urban,all,0 to 4,65 to 69,0.22684
+IDN,urban,all,5 to 9,65 to 69,0.21921
+IDN,urban,all,10 to 14,65 to 69,0.20215
+IDN,urban,all,15 to 19,65 to 69,0.17253
+IDN,urban,all,20 to 24,65 to 69,0.17161
+IDN,urban,all,25 to 29,65 to 69,0.20025
+IDN,urban,all,30 to 34,65 to 69,0.2272
+IDN,urban,all,35 to 39,65 to 69,0.27648
+IDN,urban,all,40 to 44,65 to 69,0.26861
+IDN,urban,all,45 to 49,65 to 69,0.22183
+IDN,urban,all,50 to 54,65 to 69,0.22219
+IDN,urban,all,55 to 59,65 to 69,0.27547
+IDN,urban,all,60 to 64,65 to 69,0.39382
+IDN,urban,all,65 to 69,65 to 69,0.37816
+IDN,urban,all,70 to 74,65 to 69,0.47327
+IDN,urban,all,75+,65 to 69,0.3298
+IDN,urban,all,0 to 4,70 to 74,0.17157
+IDN,urban,all,5 to 9,70 to 74,0.16717
+IDN,urban,all,10 to 14,70 to 74,0.1751
+IDN,urban,all,15 to 19,70 to 74,0.15076
+IDN,urban,all,20 to 24,70 to 74,0.16471
+IDN,urban,all,25 to 29,70 to 74,0.1556
+IDN,urban,all,30 to 34,70 to 74,0.16352
+IDN,urban,all,35 to 39,70 to 74,0.19741
+IDN,urban,all,40 to 44,70 to 74,0.19781
+IDN,urban,all,45 to 49,70 to 74,0.19332
+IDN,urban,all,50 to 54,70 to 74,0.18889
+IDN,urban,all,55 to 59,70 to 74,0.18485
+IDN,urban,all,60 to 64,70 to 74,0.24741
+IDN,urban,all,65 to 69,70 to 74,0.25186
+IDN,urban,all,70 to 74,70 to 74,0.3777
+IDN,urban,all,75+,70 to 74,0.29134
+IDN,urban,all,0 to 4,75+,0.14677
+IDN,urban,all,5 to 9,75+,0.14704
+IDN,urban,all,10 to 14,75+,0.15165
+IDN,urban,all,15 to 19,75+,0.13878
+IDN,urban,all,20 to 24,75+,0.14683
+IDN,urban,all,25 to 29,75+,0.13837
+IDN,urban,all,30 to 34,75+,0.14929
+IDN,urban,all,35 to 39,75+,0.15153
+IDN,urban,all,40 to 44,75+,0.1647
+IDN,urban,all,45 to 49,75+,0.17185
+IDN,urban,all,50 to 54,75+,0.17191
+IDN,urban,all,55 to 59,75+,0.16088
+IDN,urban,all,60 to 64,75+,0.17011
+IDN,urban,all,65 to 69,75+,0.17671
+IDN,urban,all,70 to 74,75+,0.23775
+IDN,urban,all,75+,75+,0.20307

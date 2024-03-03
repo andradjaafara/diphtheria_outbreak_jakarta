@@ -4,16 +4,16 @@
 
 ### 1. Start of evaluation of the contribution of each infection type to Rt!
 
-beta = as.numeric(mod_optimistic_summary[1,3])
-S0 = as.numeric(mod_optimistic_summary[2,3])
-theta1 = as.numeric(mod_optimistic_summary[3,3])
-theta2 = as.numeric(mod_optimistic_summary[4,3])
-theta3 = as.numeric(mod_optimistic_summary[5,3])
-p1 = as.numeric(mod_optimistic_summary[6,3])
-p2 = as.numeric(mod_optimistic_summary[7,3])
-kappa = as.numeric(mod_optimistic_summary[8,3])
-sigmaE_1 = as.numeric(mod_optimistic_summary[9,3])
-sigmaE_2 = as.numeric(mod_optimistic_summary[10,3])
+beta = as.numeric(mod1_summary[1,3])
+S0 = as.numeric(mod1_summary[2,3])
+theta1 = as.numeric(mod1_summary[3,3])
+theta2 = as.numeric(mod1_summary[4,3])
+theta3 = as.numeric(mod1_summary[5,3])
+p1 = as.numeric(mod1_summary[6,3])
+p2 = as.numeric(mod1_summary[7,3])
+kappa = as.numeric(mod1_summary[8,3])
+sigmaE_1 = as.numeric(mod1_summary[9,3])
+sigmaE_2 = as.numeric(mod1_summary[10,3])
 rho =  40000 * S0 * 1.974 # 40000 roughly average per day vaccinated; times susceptible times 1.974531 ratio S in children to overall S
 tau = 1/3
 gammaI_1 = 1/(3.88+2)
@@ -75,23 +75,48 @@ contribution.df <- data.frame(S0=s0,E=rt_E,EV=rt_EV,I=rt_I,C1=rt_C1,C2=rt_C2,C3=
                               Clinical.contrib=contrib_clin,
                               immune=v0)
 
-p4_A <- ggplot(contribution.df,aes(x=immune*100)) +
-  geom_line(aes(y=Carriers.contrib*100,col="Carriers/Asymptomatic"),linewidth=1.5) +
-  geom_line(aes(y=Exposed.contrib*100,col="Exposed"),linewidth=1.5) +
-  geom_line(aes(y=Clinical.contrib*100,col="Clinical/Symptomatic"),linewidth=1.5) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+### ggplot friendly format
+contribution.df2 <- contribution.df %>% 
+  dplyr::select(immune,`Carriers/Asymptomatic`=Carriers.contrib,
+                Exposed=Exposed.contrib,`Clinical/Symptomatic`=Clinical.contrib) %>% 
+  pivot_longer(-immune,names_to="component",values_to="proportion") %>% 
+  mutate(immune=immune*100,
+         proportion=proportion*100,
+         component=factor(component,
+                          levels=c("Carriers/Asymptomatic","Exposed","Clinical/Symptomatic")))
+
+p4_A <- contribution.df2 %>% 
+  ggplot(aes(x=immune,y=proportion,fill=component)) +
+  geom_area() + 
+  scale_fill_manual(values=safe_colorblind_palette[c(7:9)]) +
+  theme_classic() +
   labs(x="Proportion of the immune population (%)",
        y="Contribution of each infectious component (%)",
-       col=NULL) +
-  scale_colour_manual(breaks=c("Carriers/Asymptomatic", "Exposed", "Clinical/Symptomatic"),
-                      labels=c("Carriers/Asymptomatic", "Exposed", "Clinical/Symptomatic"),
-                      values=c("blue","purple","red")) +
-  theme(legend.position=c(0.175,0.875)) + ylim(0,80) +
-  geom_vline(xintercept=84,linewidth=1.5,linetype=2,col="green") +
-  annotate("text",x=84,y=38,label="40%") +
-  annotate("text",x=84,y=52,label="50%") +
-  annotate("text",x=84,y=8,label="10%") + labs(tag="A") +
-  theme(legend.background = element_rect(fill='transparent'))
+       fill=NULL) +
+  theme(legend.position = "bottom") +
+  # geom_vline(xintercept=87,linewidth=1.5,linetype=2,col="black") +
+  geom_segment(aes(x=87,xend=87,y=0,yend=100),linewidth=1.25,linetype=2,col="white") +
+  annotate("text",x=92,y=75,label="50.5%",col="white") +
+  annotate("text",x=92,y=33,label="41.0%",col="white") +
+  annotate("text",x=91,y=4,label="8.5%",col="white") + labs(tag="A")
+  
+# p4_A <- ggplot(contribution.df,aes(x=immune*100)) +
+#   geom_line(aes(y=Carriers.contrib*100,col="Carriers/Asymptomatic"),linewidth=1.5) +
+#   geom_line(aes(y=Exposed.contrib*100,col="Exposed"),linewidth=1.5) +
+#   geom_line(aes(y=Clinical.contrib*100,col="Clinical/Symptomatic"),linewidth=1.5) +
+#   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+#   labs(x="Proportion of the immune population (%)",
+#        y="Contribution of each infectious component (%)",
+#        col=NULL) +
+#   scale_colour_manual(breaks=c("Carriers/Asymptomatic", "Exposed", "Clinical/Symptomatic"),
+#                       labels=c("Carriers/Asymptomatic", "Exposed", "Clinical/Symptomatic"),
+#                       values=c("blue","purple","red")) +
+#   theme(legend.position=c(0.175,0.875)) + ylim(0,80) +
+#   geom_vline(xintercept=87,linewidth=1.5,linetype=2,col="green") +
+#   annotate("text",x=87,y=50.5,label="50.5%") +
+#   annotate("text",x=87,y=41,label="41.0%") +
+#   annotate("text",x=87,y=8.5,label="8.5%") + labs(tag="A") +
+#   theme(legend.background = element_rect(fill='transparent'))
 
 ### 2. Start of susceptibility evaluation
 s0 <- seq(1,0,by=-0.01)
@@ -141,14 +166,14 @@ pop_immunity_impact <- data.frame(susceptible=s0,
 p4_B <- pop_immunity_impact %>% 
   ggplot(aes(x=immune*100,y=diff_rt)) +
   geom_line(col="red",linewidth=1.5) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   labs(x="Proportion of immune population\n before the outbreak (%)",
        y="Reff value differences\n to 100% susceptible population") + labs(tag="B")
 
 p4_C <- pop_immunity_impact %>% 
   ggplot(aes(x=immune*100,y=prop*100)) +
   geom_line(col="red",linewidth=1.5) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   labs(x="Proportion of immune population\n before the outbreak (%)",
        y="Proportion of infections\n to be symptomatic cases (%)") + labs(tag="C")
 

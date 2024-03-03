@@ -96,51 +96,52 @@ params_monitor = c("beta","theta1","theta2","theta3","p1","p2","kappa",
 ##################################################################################
 # debug + run the model
 ##################################################################################
-comp_model_optimistic <- stan_model('codes/stan/diphtheria-model-optimistic.stan')
-comp_model_pessimistic <- stan_model('codes/stan/diphtheria-model-pessimistic.stan')
+comp_model1 <- stan_model('codes/stan/diphtheria-model1.stan')
+comp_model2 <- stan_model('codes/stan/diphtheria-model2.stan')
 
-# runif(2,1,9999999); 6813636 6592353
-seed_optimistic <- 6813636
-seed_pessimistic <- 6592353
+# runif(2,1,9999999); 6025123 8398911
+seed_model1 <- 6025123
+seed_model2 <- 8398911
 
-# mod_optimistic_all = sampling(comp_model_optimistic,
-#                               data = stan_d,
-#                               pars = params_monitor,
-#                               chains = 2,
-#                               seed = seed_optimistic,
-#                               warmup = 300,
-#                               init = "random",
-#                               iter = 2000)
-# saveRDS(mod_optimistic_all,file="output/model/mod_optimistic_all.rds")
+# mod1_all = sampling(comp_model1,
+#                     data = stan_d,
+#                     pars = params_monitor,
+#                     chains = 2,
+#                     seed = seed_model1,
+#                     warmup = 300,
+#                     init = "random",
+#                     iter = 2000)
+# saveRDS(mod1_all,file="output/model/mod1_all.rds")
 
-# mod_pessimistic_all = sampling(comp_model_pessimistic,
-#                                data = stan_d,
-#                                pars = params_monitor,
-#                                chains = 2,
-#                                seed = seed_pessimistic,
-#                                warmup = 300,
-#                                init = "random",
-#                                iter = 2000)
-# saveRDS(mod_pessimistic_all,file="output/model/mod_pessimistic_all.rds")
+# mod2_all = sampling(comp_model2,
+#                     data = stan_d,
+#                     pars = params_monitor,
+#                     chains = 2,
+#                     seed = seed_model2,
+#                     warmup = 300,
+#                     init = "random",
+#                     iter = 2000)
+# saveRDS(mod2_all,file="output/model/mod2_all.rds")
 
-mod_optimistic_all <- readRDS(file="output/model/mod_optimistic_all.rds")
-mod_pessimistic_all <- readRDS(file="output/model/mod_pessimistic_all.rds")
+mod1_all <- readRDS(file="output/model/mod1_all.rds")
+mod2_all <- readRDS(file="output/model/mod2_all.rds")
 
 ##################################################################################
 # Compare models
 ##################################################################################
-log_lik_optimistic <- extract_log_lik(mod_optimistic_all, merge_chains = FALSE)
-log_lik_pessimistic <- extract_log_lik(mod_pessimistic_all, merge_chains = FALSE)
+log_lik_mod1 <- extract_log_lik(mod1_all, merge_chains = FALSE)
+log_lik_mod2 <- extract_log_lik(mod2_all, merge_chains = FALSE)
 
-r_eff_optimistic <- relative_eff(exp(log_lik_optimistic))
-r_eff_pessimistic <- relative_eff(exp(log_lik_pessimistic)) 
+r_eff_mod1 <- relative_eff(exp(log_lik_mod1))
+r_eff_mod2 <- relative_eff(exp(log_lik_mod2))
 
-loo_optimistic <- loo(log_lik_optimistic, r_eff = r_eff_optimistic, cores = 4)
-loo_pessimistic <- loo(log_lik_pessimistic, r_eff = r_eff_pessimistic, cores = 4)
-print(loo_optimistic)
-print(loo_pessimistic)
+loo_mod1 <- loo(log_lik_mod1, r_eff = r_eff_mod1, cores = 4)
+loo_mod2 <- loo(log_lik_mod2, r_eff = r_eff_mod2, cores = 4)
 
-comp <- loo_compare(loo_optimistic, loo_pessimistic)
+print(loo_mod1)
+print(loo_mod2)
+
+comp <- loo_compare(loo_mod1, loo_mod2)
 print(comp)
 
 ##################################################################################
@@ -148,154 +149,170 @@ print(comp)
 ##################################################################################
 # fake_I.post <- extract(mod_6_new)$fake_I
 
-mod_optimistic_posterior <- data.frame(beta=rstan::extract(mod_optimistic_all,inc_warmup=FALSE)$beta,
-                                       S0=rstan::extract(mod_optimistic_all, 
-                                                         inc_warmup=FALSE)$S0,
-                                       theta1=rstan::extract(mod_optimistic_all,
-                                                             inc_warmup=FALSE)$theta1,
-                                       theta2=rstan::extract(mod_optimistic_all,
-                                                             inc_warmup=FALSE)$theta2,
-                                       theta3=rstan::extract(mod_optimistic_all,
-                                                             inc_warmup=FALSE)$theta3,
-                                       p1=rstan::extract(mod_optimistic_all, inc_warmup=FALSE)$p1,
-                                       p2=rstan::extract(mod_optimistic_all, inc_warmup=FALSE)$p2,
-                                       kappa=rstan::extract(mod_optimistic_all, inc_warmup=FALSE)$kappa,
-                                       sigmaE_1=rstan::extract(mod_optimistic_all,
-                                                               inc_warmup=FALSE)$sigmaE_1,
-                                       sigmaE_2=rstan::extract(mod_optimistic_all,
-                                                               inc_warmup=FALSE)$sigmaE_2,
-                                       R0=rstan::extract(mod_optimistic_all,inc_warmup=FALSE)$R0)
+mod1_posterior <- data.frame(beta=rstan::extract(mod1_all,
+                                                 inc_warmup=FALSE)$beta,
+                             S0=rstan::extract(mod1_all, 
+                                               inc_warmup=FALSE)$S0,
+                             theta1=rstan::extract(mod1_all,
+                                                   inc_warmup=FALSE)$theta1,
+                             theta2=rstan::extract(mod1_all,
+                                                   inc_warmup=FALSE)$theta2,
+                             theta3=rstan::extract(mod1_all,
+                                                   inc_warmup=FALSE)$theta3,
+                             p1=rstan::extract(mod1_all, 
+                                               inc_warmup=FALSE)$p1,
+                             p2=rstan::extract(mod1_all, 
+                                               inc_warmup=FALSE)$p2,
+                             kappa=rstan::extract(mod1_all, 
+                                                  inc_warmup=FALSE)$kappa,
+                             sigmaE_1=rstan::extract(mod1_all,
+                                                     inc_warmup=FALSE)$sigmaE_1,
+                             sigmaE_2=rstan::extract(mod1_all,
+                                                     inc_warmup=FALSE)$sigmaE_2,
+                             R0=rstan::extract(mod1_all,inc_warmup=FALSE)$R0)
 
-mod_optimistic_summary <- data.frame(param=colnames(mod_optimistic_posterior),
-                                     mean=as.numeric(apply(mod_optimistic_posterior,2,mean)),
-                                     median=as.numeric(apply(mod_optimistic_posterior,2,quantile,
-                                                             probs=0.5)),
-                                     lower=as.numeric(apply(mod_optimistic_posterior,2,quantile,
-                                                            probs=0.025)),
-                                     upper=as.numeric(apply(mod_optimistic_posterior,2,quantile,
-                                                            probs=0.975)))
+mod1_summary <- data.frame(param=colnames(mod1_posterior),
+                           mean=as.numeric(apply(mod1_posterior,2,mean)),
+                           median=as.numeric(apply(mod1_posterior,2,quantile,
+                                                   probs=0.5)),
+                           lower=as.numeric(apply(mod1_posterior,2,quantile,
+                                                  probs=0.025)),
+                           upper=as.numeric(apply(mod1_posterior,2,quantile,
+                                                  probs=0.975)))
 
-mod_pessimistic_posterior <- data.frame(beta=rstan::extract(mod_pessimistic_all,inc_warmup=FALSE)$beta,
-                                        S0=rstan::extract(mod_pessimistic_all, 
-                                                          inc_warmup=FALSE)$S0,
-                                        theta1=rstan::extract(mod_pessimistic_all,
-                                                              inc_warmup=FALSE)$theta1,
-                                        theta2=rstan::extract(mod_pessimistic_all,
-                                                              inc_warmup=FALSE)$theta2,
-                                        theta3=rstan::extract(mod_pessimistic_all,
-                                                              inc_warmup=FALSE)$theta3,
-                                        p1=rstan::extract(mod_pessimistic_all,inc_warmup=FALSE)$p1,
-                                        p2=rstan::extract(mod_pessimistic_all, inc_warmup=FALSE)$p2,
-                                        kappa=rstan::extract(mod_pessimistic_all,
-                                                             inc_warmup=FALSE)$kappa,
-                                        sigmaE_1=rstan::extract(mod_pessimistic_all,
-                                                                inc_warmup=FALSE)$sigmaE_1,
-                                        sigmaE_2=rstan::extract(mod_pessimistic_all,
-                                                                inc_warmup=FALSE)$sigmaE_2,
-                                        R0=rstan::extract(mod_pessimistic_all,inc_warmup=FALSE)$R0)
+mod2_posterior <- data.frame(beta=rstan::extract(mod2_all,
+                                                 inc_warmup=FALSE)$beta,
+                             S0=rstan::extract(mod2_all, 
+                                               inc_warmup=FALSE)$S0,
+                             theta1=rstan::extract(mod2_all,
+                                                   inc_warmup=FALSE)$theta1,
+                             theta2=rstan::extract(mod2_all,
+                                                   inc_warmup=FALSE)$theta2,
+                             theta3=rstan::extract(mod2_all,
+                                                   inc_warmup=FALSE)$theta3,
+                             p1=rstan::extract(mod2_all, 
+                                               inc_warmup=FALSE)$p1,
+                             p2=rstan::extract(mod2_all, 
+                                               inc_warmup=FALSE)$p2,
+                             kappa=rstan::extract(mod2_all, 
+                                                  inc_warmup=FALSE)$kappa,
+                             sigmaE_1=rstan::extract(mod2_all,
+                                                     inc_warmup=FALSE)$sigmaE_1,
+                             sigmaE_2=rstan::extract(mod2_all,
+                                                     inc_warmup=FALSE)$sigmaE_2,
+                             R0=rstan::extract(mod2_all,inc_warmup=FALSE)$R0)
 
-mod_pessimistic_summary <- data.frame(param=colnames(mod_pessimistic_posterior),
-                                      mean=as.numeric(apply(mod_pessimistic_posterior,2,mean)),
-                                      median=as.numeric(apply(mod_pessimistic_posterior,2,quantile,
-                                                              probs=0.5)),
-                                      lower=as.numeric(apply(mod_pessimistic_posterior,2,quantile,
-                                                             probs=0.025)),
-                                      upper=as.numeric(apply(mod_pessimistic_posterior,2,quantile,
-                                                             probs=0.975)))
+mod2_summary <- data.frame(param=colnames(mod2_posterior),
+                           mean=as.numeric(apply(mod2_posterior,2,mean)),
+                           median=as.numeric(apply(mod2_posterior,2,quantile,
+                                                   probs=0.5)),
+                           lower=as.numeric(apply(mod2_posterior,2,quantile,
+                                                  probs=0.025)),
+                           upper=as.numeric(apply(mod2_posterior,2,quantile,
+                                                  probs=0.975)))
 
-mod_optimistic_inci_samp <- rstan::extract(mod_optimistic_all, inc_warmup=FALSE)$inci_samp
-mod_pessimistic_inci_samp <- rstan::extract(mod_pessimistic_all, inc_warmup=FALSE)$inci_samp
+mod1_samp <- rstan::extract(mod1_all, inc_warmup=FALSE)$inci_samp
+mod2_samp <- rstan::extract(mod2_all, inc_warmup=FALSE)$inci_samp
 
-mod_optimistic_median_posterior <- colMedians(as.matrix(mod_optimistic_posterior))
-names(mod_optimistic_median_posterior) <- colnames(mod_optimistic_posterior)
-mod_pessimistic_median_posterior <- colMedians(as.matrix(mod_pessimistic_posterior))
-names(mod_pessimistic_median_posterior) <- colnames(mod_pessimistic_posterior)
-mod_optimistic_quantiles_inci_samp <- colQuantiles(as.matrix(mod_optimistic_inci_samp),
-                                                   probs=c(0.025,0.5,0.975))
-mod_pessimistic_quantiles_inci_samp <- colQuantiles(as.matrix(mod_pessimistic_inci_samp),
-                                                    probs=c(0.025,0.5,0.975))
+mod1_median_posterior <- colMedians(as.matrix(mod1_posterior))
+names(mod1_median_posterior) <- colnames(mod1_posterior)
+
+mod2_median_posterior <- colMedians(as.matrix(mod2_posterior))
+names(mod2_median_posterior) <- colnames(mod2_posterior)
+
+mod1_quantiles_inci_samp <- colQuantiles(as.matrix(mod1_samp),
+                                         probs=c(0.025,0.5,0.975))
+mod2_quantiles_inci_samp <- colQuantiles(as.matrix(mod2_samp),
+                                         probs=c(0.025,0.5,0.975))
 
 # plot estim and true data
-# optimistic model
+# model 1
 plot(1:18,cases_jakarta_week$cases,col="black",cex=1.5,
-     ylim=c(0,max(mod_optimistic_quantiles_inci_samp)),pch=16)
-lines(1:18,mod_optimistic_quantiles_inci_samp[,2],lwd=2,col="red")
-lines(1:18,mod_optimistic_quantiles_inci_samp[,1],lwd=2,lty=2,col="red")
-lines(1:18,mod_optimistic_quantiles_inci_samp[,3],lwd=2,lty=2,col="red")
-# pessimistic model
+     ylim=c(0,max(mod1_quantiles_inci_samp)),pch=16)
+lines(1:18,mod1_quantiles_inci_samp[,2],lwd=2,col="red")
+lines(1:18,mod1_quantiles_inci_samp[,1],lwd=2,lty=2,col="red")
+lines(1:18,mod1_quantiles_inci_samp[,3],lwd=2,lty=2,col="red")
+# model 2
 plot(1:18,cases_jakarta_week$cases,col="black",cex=1.5,
-     ylim=c(0,max(mod_pessimistic_quantiles_inci_samp)),pch=16)
-lines(1:18,mod_pessimistic_quantiles_inci_samp[,2],lwd=2,col="red")
-lines(1:18,mod_pessimistic_quantiles_inci_samp[,1],lwd=2,lty=2,col="red")
-lines(1:18,mod_pessimistic_quantiles_inci_samp[,3],lwd=2,lty=2,col="red")
+     ylim=c(0,max(mod2_quantiles_inci_samp)),pch=16)
+lines(1:18,mod2_quantiles_inci_samp[,2],lwd=2,col="red")
+lines(1:18,mod2_quantiles_inci_samp[,1],lwd=2,lty=2,col="red")
+lines(1:18,mod2_quantiles_inci_samp[,3],lwd=2,lty=2,col="red")
 
 ##################################################################################
 # get traceplot and parameter estimates from model
 ##################################################################################
 ## traceplots
-p_trace_optimistic <- stan_trace(mod_optimistic_all, pars = c("beta","theta1","theta2",
-                                                              "theta3","p1","p2","kappa",
-                                                              "sigmaE_1","sigmaE_2","S0","R0"),
-                                 inc_warmup = TRUE,ncol=3) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-p_trace_pessimistic <- stan_trace(mod_pessimistic_all, pars = c("beta","theta1","theta2",
-                                                                "theta3","p1","p2","kappa",
-                                                                "sigmaE_1","sigmaE_2","S0","R0"),
-                                  inc_warmup = TRUE,ncol=3) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-p_trace_all <- plot_grid(p_trace_optimistic,p_trace_pessimistic,
-                         labels=c("A","B"),ncol=1)
+p_trace_mod1 <- stan_trace(mod1_all, pars = c("beta","theta1","theta2",
+                                              "theta3","p1","p2","kappa",
+                                              "sigmaE_1","sigmaE_2","S0","R0"),
+                           inc_warmup = TRUE,ncol=3) +
+  theme_bw() + theme(panel.grid.major = element_blank(), 
+                     panel.grid.minor = element_blank())
+
+p_trace_mod2 <- stan_trace(mod2_all, pars = c("beta","theta1","theta2",
+                                              "theta3","p1","p2","kappa",
+                                              "sigmaE_1","sigmaE_2","S0","R0"),
+                           inc_warmup = TRUE,ncol=3) +
+  theme_bw() + theme(panel.grid.major = element_blank(), 
+                     panel.grid.minor = element_blank())
+
+p_trace_all <- plot_grid(p_trace_mod1,p_trace_mod2,
+                         labels=c("A","B","C"),ncol=1)
 
 ggsave("output/figures/p_trace.png", p_trace_all,
        width = 16, height = 26, units = "cm")
 
 ## parameter estimates
 # simulate having posteriors for two different models each with parameters beta[1],..., beta[4]
-posterior_1 <- matrix(rnorm(4000), 1000, 4)
-posterior_2 <- matrix(rnorm(4000), 1000, 4)
-colnames(posterior_1) <- colnames(posterior_2) <- paste0("beta[", 1:4, "]")
+# posterior_1 <- matrix(rnorm(4000), 1000, 4)
+# posterior_2 <- matrix(rnorm(4000), 1000, 4)
+# posterior_3 <- matrix(rnorm(4000), 1000, 4)
+# colnames(posterior_1) <- colnames(posterior_2) <- paste0("beta[", 1:4, "]")
 
 # use bayesplot::mcmc_intervals_data() function to get intervals data in format easy to pass to ggplot
-combined_posteriors <- rbind(mcmc_intervals_data(mod_optimistic_all,prob_outer = 0.95),
-                             mcmc_intervals_data(mod_pessimistic_all,prob_outer = 0.95)) %>% 
+combined_posteriors <- rbind(mcmc_intervals_data(mod1_all,prob_outer = 0.95),
+                             mcmc_intervals_data(mod2_all,prob_outer = 0.95)) %>% 
   filter(parameter %in% c("beta","theta1","theta2",
                           "theta3","p1","p2","kappa",
                           "sigmaE_1","sigmaE_2","S0","R0")) %>% 
   mutate(parameter=factor(parameter,levels=c("theta1","theta2",
                                              "theta3","p1","p2","kappa",
                                              "sigmaE_1","sigmaE_2","beta","S0","R0")))
-combined_posteriors$model <- rep(c("Optimistic", "Pessimistic"), 
+
+combined_posteriors$model <- rep(c("Model 1", "Model 2"), 
                                  each = length(c("beta","theta1","theta2",
                                                  "theta3","p1","p2","kappa",
                                                  "sigmaE_1","sigmaE_2","S0","R0")))
 
 # make the plot using ggplot 
-pos <- position_nudge(y = ifelse(combined_posteriors$model == "Pessimistic", -0.2, 0.2))
+pos <- position_nudge(y = ifelse(combined_posteriors$model == "Model 1", 0.125,
+                          ifelse(combined_posteriors$model == "Model 2",-0.125,0)))
+
 p_estimates <- ggplot(combined_posteriors, aes(x = m, y = parameter, color = model)) + 
   geom_point(position = pos, size=2) +
   geom_linerange(aes(xmin = ll, xmax = hh), position = pos) +
   geom_linerange(aes(xmin = l, xmax = h), position = pos, linewidth=1.25) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme_bw() + theme(panel.grid.major = element_blank(), 
+                     panel.grid.minor = element_blank()) +
   labs(col="Model",x="Parameter estimates",y="Model parameters") +
   theme(legend.position = "top") +
-  scale_colour_manual(breaks=c("Optimistic","Pessimistic"),
-                      labels=c("Optimistic","Pessimistic"),
-                      values=safe_colorblind_palette[c(7,9)])
+  scale_colour_manual(breaks=c("Model 1","Model 2"),
+                      labels=c("Model 1","Model 2"),
+                      values=safe_colorblind_palette[c(7,2)])
 
 ggsave("output/figures/p_estimates.png", p_estimates,
        width = 16, height = 12, units = "cm")
 
 # tables of parameter estimates
 
-params_summary_optimistic <- rownames_to_column(data.frame(summary(mod_optimistic_all,
-                                                       params_monitor[1:11])$summary))
-params_summary_pessimistic <- rownames_to_column(data.frame(summary(mod_pessimistic_all,
-                                                        params_monitor[1:11])$summary))
+params_summary_mod1 <- rownames_to_column(data.frame(summary(mod1_all,
+                                                             params_monitor[1:11])$summary))
+params_summary_mod2 <- rownames_to_column(data.frame(summary(mod2_all,
+                                                             params_monitor[1:11])$summary))
 
-write_csv(params_summary_optimistic,"output/model/parameter_estimates_optimistic.csv")
-write_csv(params_summary_pessimistic,"output/model/parameter_estimates_pessimistic.csv")
-
-
+write_csv(params_summary_mod1,"output/model/parameter_estimates_mod1.csv")
+write_csv(params_summary_mod2,"output/model/parameter_estimates_mod2.csv")
 
 
 
