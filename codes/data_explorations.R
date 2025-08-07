@@ -1,6 +1,5 @@
 ### library
 library(sf)
-library(maptools)
 library(incidence)
 library(scales)
 library(reshape2)
@@ -113,8 +112,11 @@ p1_C <- ggplot(data=cases_age, aes(x=age_group,y=incidence_rate)) +
 
 p1 <- plot_grid(p1_A,p1_B,p1_C,nrow=3)
 
+ggsave("output/figures/p1.jpg", p1,
+       width = 16, height = 20, units = "cm", dpi = 600)
+
 ggsave("output/figures/p1.png", p1,
-       width = 16, height = 20, units = "cm")
+       width = 16, height = 20, units = "cm", dpi = 600)
 
 ### susceptibility estimates
 # susceptibility_estimates <- read.csv("data/susceptibility-estimates.csv",header = TRUE,

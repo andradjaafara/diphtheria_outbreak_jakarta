@@ -182,4 +182,7 @@ p4_BC <- plot_grid(p4_B,p4_C,ncol=2)
 p4 <- plot_grid(p4_A,p4_BC,nrow=2,rel_heights = c(1,0.75))
 
 ggsave("output/figures/p4.png", p4,
-       width = 16, height = 20, units = "cm")
+       width = 16, height = 20, units = "cm", dpi=600)
+
+ggsave("output/figures/p4.jpg", p4,
+       width = 16, height = 20, units = "cm", dpi=600)

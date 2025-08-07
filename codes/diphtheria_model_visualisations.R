@@ -122,7 +122,10 @@ p3 <- process_model_deterministic_plot(process_model1,
                                        times_of_observed,
                                        incidence_observed)
 ggsave("output/figures/p3.jpg", ggdraw(p3),
-       width = 16, height = 11, units = "cm")
+       width = 16, height = 11, units = "cm", dpi=600)
+
+ggsave("output/figures/p3.png", ggdraw(p3),
+       width = 16, height = 11, units = "cm", dpi=600)
 
 p_mod2 <- process_model_deterministic_plot(process_model2,
                                            times_of_observed,
@@ -131,7 +134,10 @@ p_mod2 <- process_model_deterministic_plot(process_model2,
 # p_all_model <- plot_grid(ggdraw(p3),ggdraw(p_sens_low),ncol=1,
 #                          labels=c("A","B"), align = "v")
 ggsave("output/figures/p_mod2.jpg", ggdraw(p_mod2),
-       width = 16, height = 11, units = "cm")
+       width = 16, height = 11, units = "cm", dpi=600)
+
+ggsave("output/figures/p_mod2.png", ggdraw(p_mod2),
+       width = 16, height = 11, units = "cm", dpi=600)
 
 ### run scenarios
 output_model_without_ORI <- calculate_diff(mod1_posterior,model_without_ORI,325663)
@@ -178,7 +184,11 @@ p5 <- diff.long.all %>% ggplot(aes(x=Scenario,y=Difference,fill=Scenario)) +
                     labels=c("Scenario 1","Scenario 2","Scenario 3"),
                     values=safe_colorblind_palette[c(1,7,3)]) +
   theme(legend.position = "none")
+
 ggsave("output/figures/p5.png", p5,
-       width = 16, height = 11, units = "cm")
+       width = 16, height = 11, units = "cm", dpi=600)
+
+ggsave("output/figures/p5.jpg", p5,
+       width = 16, height = 11, units = "cm", dpi=600)
 
 

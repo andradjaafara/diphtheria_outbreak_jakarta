@@ -201,7 +201,7 @@ p2_legend <- generated_quantities_summary %>%
   theme(legend.position = "bottom",
         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + 
   labs(tag="A")
-p2_legend <- get_legend(p2_legend)
+p2_leg <- ggpubr::get_legend(p2_legend)
 
 ### Extract parameter 's'
 s_samples1 <- rstan::extract(fit1, "s")$s
@@ -281,10 +281,13 @@ p2_B <- susceptibility_summary %>%
   ylim(0,100)
 
 p2_plot <- plot_grid(p2_A,p2_B,nrow=1)
-p2 <- plot_grid(p2_plot,p2_legend,nrow=2,rel_heights = c(1,0.08))
+p2 <- plot_grid(p2_plot,p2_leg,nrow=2,rel_heights = c(1,0.08))
+
+ggsave("output/figures/p2.jpg", p2,
+       width = 16, height = 12, units = "cm", dpi=600)
 
 ggsave("output/figures/p2.png", p2,
-       width = 16, height = 12, units = "cm")
+       width = 16, height = 12, units = "cm", dpi=600)
 
 ### Fit overall susceptibility to beta distribution
 fit_susceptibility1_beta <- 

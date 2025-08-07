@@ -302,7 +302,10 @@ p_estimates <- ggplot(combined_posteriors, aes(x = m, y = parameter, color = mod
                       values=safe_colorblind_palette[c(7,2)])
 
 ggsave("output/figures/p_estimates.png", p_estimates,
-       width = 16, height = 12, units = "cm")
+       width = 16, height = 12, units = "cm", dpi=600)
+
+ggsave("output/figures/p_estimates.jpg", p_estimates,
+       width = 16, height = 12, units = "cm", dpi=600)
 
 # tables of parameter estimates
 
